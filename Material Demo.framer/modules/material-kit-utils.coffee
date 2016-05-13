@@ -154,101 +154,21 @@ exports.textAutoSize = (textLayer) ->
 	}
 
 exports.getDevice = ->
-
-
 	# Loads the initial frame
-	device = Framer.Device.deviceType
+	device = ""
+	frame = true
+	if m.lib.realDevices[innerWidth] && m.lib.realDevices[innerWidth][innerHeight]
+		device = m.lib.realDevices[innerWidth][innerHeight]
+		frame = false
 
-	### This switch looks at the innerWidth to determine if the prototype is being opened on a device.
-	If so, it'll override the device, and it'll adjust the view to fullscreen.###
-	capturedDevice = {
-		width:m.lib.frames[device].width
-		height:m.lib.frames[device].height
-		scale:m.lib.frames[device].scale
-		mobile:m.lib.frames[device].mobile
-		platform:m.lib.frames[device].platform
-	}
+	if frame
+		device =
+			name: Framer.Device.deviceType
+			width :  Framer.DeviceView.Devices[Framer.Device.deviceType].screenWidth
+			height:  Framer.DeviceView.Devices[Framer.Device.deviceType].screenHeight
+			scale: m.lib.framerFrames[Framer.DeviceView.Devices[Framer.Device.deviceType].screenWidth]
 
-	switch innerWidth
-		# iPhone 5c/5s/SE
-		when 640
-			device = "apple-iphone-5s-silver"
-			Framer.Device.deviceType = "fullscreen"
-
-		# iPhone 6s
-		when 750
-			device = "apple-iphone-6s-silver"
-			Framer.Device.deviceType = "fullscreen"
-
-		# iPhone 6s+
-		when 1242
-			if innerHeight == 2208
-				device = "apple-iphone-6s-plus-silver"
-				Framer.Device.deviceType = "fullscreen"
-
-		# iPad in portrait
-		when 1536
-			if innerHeight == 2048
-				device = "apple-ipad-air-2-silver"
-				Framer.Device.deviceType = "fullscreen"
-
-		# iPad
-		when 2048
-
-			# iPad Pro in portrait
-			if innerHeight == 2732
-				device = "apple-ipad-pro-silver"
-
-			# iPad in landsccape
-			if innerHeight == 1536
-				device = "apple-ipad-air-2-silver"
-			Framer.Device.deviceType = "fullscreen"
-
-		# iPad Pro
-		when 2732
-			if innerHeight == 2048
-				device = "apple-ipad-pro-silver"
-				Framer.Device.deviceType = "fullscreen"
-
-	exports.scale = m.lib.frames[device].scale
-
-	if device == "fullscreen"
-		exports.width = window.innerWidth
-		exports.height = window.innerHeight
-	else
-		exports.width = m.lib.frames[device].width
-		exports.height = m.lib.frames[device].height
-		if window.innerWidth == 1242 || window.innerWidth == 2208
-			exports.width = window.innerWidth
-			exports.height = window.innerHeight
-			exports.scale = 3
-	exports.mobile = m.lib.frames[device].mobile
-	exports.platform = m.lib.frames[device].platform
-	exports.orientation =  Framer.Device.orientation
-
-	# Device String Scrubber
-	device = device.replace("apple-", "")
-	device = device.replace("-gold", "")
-	device = device.replace("-green", "")
-	device = device.replace("-blue", "")
-	device = device.replace("-red", "")
-	device = device.replace("-white", "")
-	device = device.replace("-yellow", "")
-	device = device.replace("-pink", "")
-	device = device.replace("-space-grey", "")
-	device = device.replace("-rose", "")
-	device = device.replace("5s", "5")
-	device = device.replace("5c", "5")
-	device = device.replace("-mini", "")
-	device = device.replace("-air", "")
-	device = device.replace("-2", "")
-	device = device.replace("-4", "")
-	device = device.replace("-silver", "")
-
-	capturedDevice.name = device
-
-	# exports.device becomes either ipad, ipad-pro, iphone-5, iphone-6s, iphone-6s-plus
-	return capturedDevice
+	return device
 
 
 # Special Characters

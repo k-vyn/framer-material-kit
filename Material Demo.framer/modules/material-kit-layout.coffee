@@ -29,8 +29,6 @@ layout = (array) ->
 			else
 				setup[i] = exports.defaults.animations[i]
 
-	print setup.target
-
 	if setup.target
 		if setup.target.length
 			targetLayers = setup.target

@@ -508,53 +508,130 @@ exports.assets = {
 			</svg>"
 }
 
+
+exports.framerFrames =
+	768:2
+	1080:3
+	1440:4
+	1536:2
+
 # Device frames
-exports.frames =  {
+exports.realDevices =
+	320:
+		480:
+			name:"iPhone"
+			width:320
+			height:480
+			scale:1
+	480:
+		854:
+			name:"Android One"
+			width:480
+			height:854
+			scale:1.5
 
-# Fullscreen
-	"fullscreen" : { height: window.innerHeight, width: window.innerWidth,	scale:1, mobile:false, platform:"web"}
-
-	# iPhones
-	## 5S
-	"apple-iphone-5s-space-gray": { height: 1136, width: 640,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-5s-silver": { height: 1136, width: 640,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-5s-gold": { height: 1136, width: 640,	scale: 2, mobile:true, platform:"iOS"}
-
-	## 5c
-	"apple-iphone-5c-green": { height: 1136, width: 640,scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-5c-blue": { height: 1136, width: 640,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-5c-red": { height: 1136, width: 640,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-5c-white": { height: 1136, width: 640,scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-5c-yellow": { height: 1136, width: 640,scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-5c-pink": { height: 1136, width: 640,	scale: 2, mobile:true, platform:"iOS"}
-
-	## 6s
-	"apple-iphone-6s-space-gray" : { height: 1334, width: 750,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-6s-silver": { height: 1334, width: 750,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-6s-gold": { height: 1334, width: 750,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-iphone-6s-rose-gold": { height: 1334, width: 750,	scale: 2, mobile:true, platform:"iOS"}
-
-	## 6s plus
-	"apple-iphone-6s-plus-gold": { height: 2208, width: 1242, scale: 3, mobile:true, platform:"iOS"}
-	"apple-iphone-6s-plus-silver": { height: 2208, width: 1242,	scale: 3, mobile:true, platform:"iOS"}
-	"apple-iphone-6s-plus-space-gray": { height: 2208, width: 1242,	scale: 3, mobile:true, platform:"iOS"}
-	"apple-iphone-6s-plus": { height: 2208, width: 1242,	scale: 3, mobile:true, platform:"iOS"}
-	"apple-iphone-6s-plus-rose-gold": { height: 2208, width: 1242,	scale: 3, mobile:true, platform:"iOS"}
-
-	# iPads
-
-	## Air
-	"apple-ipad-air-2-gold": { height: 2048, width: 1536,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-ipad-air-2-silver": { height: 2048, width: 1536,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-ipad-air-2-space-gray": { height: 2048, width: 1536,	scale: 2, mobile:true, platform:"iOS"}
-
-	## Mini
-	"apple-ipad-mini-4-gold": { height: 2048, width: 1536,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-ipad-mini-4-space-gray": { height: 2048, width: 1536,	scale: 2, mobile:true, platform:"iOS"}
-	"apple-ipad-mini-4-silver":{ height: 2048, width: 1536, scale: 2, mobile:true, platform:"iOS"}
-
-	## Pro
-	"apple-ipad-pro-gold": { height: 2732, width: 2048, scale: 2, mobile:true, platform:"iOS"}
-	"apple-ipad-pro-silver": { height: 2732, width: 2048, scale: 2, mobile:true, platform:"iOS"}
-	"apple-ipad-pro-space-gray" : { height: 2732, width: 2048, scale: 2, mobile:true, platform:"iOS"}
-}
+	640:
+		960:
+			name:"iPhone 4"
+			width:640
+			height:960
+			scale:2
+		1136:
+			name:"iPhone 5"
+			width:640
+			height:1136
+			scale:2
+	720:
+		1280:
+			name:"XHDPI"
+			width:720
+			height:1280
+			scale:2
+	750:
+		1334:
+			name:"iPhone 6"
+			width:750
+			height:1334
+			scale:2
+	768:
+		1024:
+			name:"iPad"
+			width:768
+			height:1024
+			scale:1
+		1280:
+			name:"Nexus 4"
+			width:768
+			height:1280
+			scale:2
+	800:
+		1280:
+			name:"Nexus 7"
+			width:800
+			height:1280
+			scale:1
+	1080:
+		1920:
+			name:"XXHDPI"
+			width:1080
+			height:1280
+			scale:3
+	1200:
+		1920:
+			name:"Nexus 7"
+			width:1200
+			height:1920
+			scale:2
+	1242:
+		2028:
+			name:"iPhone 6 Plus"
+			width:1242
+			height:2028
+			scale:3
+	1440:
+		2560:
+			name:"XXXHDPI"
+			width:1440
+			height:2560
+			scale:4
+	1441:
+		2561:
+			name:"Nexus 6"
+			width:1440
+			height:2560
+			scale:4
+	1536:
+		2048:
+			name:"iPad"
+			width:1536
+			height:2048
+			scale:2
+	1600:
+		2056:
+			name:"Nexus 10"
+			width:1600
+			height:2056
+			scale:2
+	2048:
+		1536:
+			name:"Nexus 9"
+			width:2048
+			height:1536
+			scale:2
+		2732:
+			name:"iPad Pro"
+			width:2048
+			height:2048
+			scale:2
+	2560:
+		1600:
+			name:"Nexus 10"
+			width:2560
+			height:1600
+			scale:2
+	2732:
+		2048:
+			name:"iPad Pro"
+			width:2732
+			height:2048
+			scale:2
