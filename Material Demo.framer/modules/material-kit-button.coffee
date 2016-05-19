@@ -2,169 +2,121 @@ m = require 'material-kit'
 
 exports.defaults = {
 		text:"text"
-		type:"button"
-		buttonType:"text"
+		type:"flat"
 		style:"light"
 		backgroundColor:"white"
-		color:"#007AFF"
+		color:"teal300"
 		fontSize:17
 		fontWeight:"regular"
 		name:"button"
 		blur:true
 		superLayer:undefined
 		constraints:undefined
+		icon:"star"
+		clip:true
+		ink:undefined
 	}
 
 exports.defaults.props = Object.keys(exports.defaults)
 
 exports.create = (array) ->
 	setup = m.utils.setupComponent(array, exports.defaults)
-	button = new Layer name:setup.name
-	button.buttonType = setup.buttonType
-	button.type = setup.type
-	color = ""
-	if setup.constraints
-		button.constraints =
-			setup.constraints
+
+	button = new Layer
+		name:setup.name
+		clip:setup.clip
+
 	if setup.superLayer
 		setup.superLayer.addSubLayer(button)
 
-	switch setup.buttonType
-		when "big"
-			setup.fontSize = 20
-			setup.fontWeight = "medium"
+	switch setup.type
+		when "floating"
+			button.constraints =
+				 width:56
+				 height:56
+				 bottom:64
+				 trailing:17
+			if m.device.scale < 4
+				button.constraints.width = 64
+				button.constraints.height = 64
+			button.borderRadius = m.px(32)
+			button.shadowColor = "rgba(0,0,0,.12)"
+			button.shadowY = m.px(2)
+			button.shadowBlur = m.px(6)
+			button.backgroundColor = m.color(setup.backgroundColor)
+			if typeof setup.icon == "string"
+				icon = m.Icon
+					name:setup.icon
+					color:m.color(setup.color)
+					superLayer:button
+					constraints:{align:"center"}
 
-			if button.constraints == undefined
-				button.constraints = {}
-
-			if button.constraints.leading == undefined
-				button.constraints.leading = 10
-
-			if button.constraints.trailing == undefined
-				button.constraints.trailing = 10
-
-			if button.constraints.height == undefined
-				button.constraints.height = 57
-
-			button.borderRadius = m.utils.px(12.5)
-			backgroundColor = ""
-
-			switch setup.style
-				when "light"
-					color = "#007AFF"
-					if setup.blur
-						backgroundColor = "rgba(255, 255, 255, .9)"
-						m.utils.bgBlur(button)
-					else
-						backgroundColor = "white"
-
-				when "dark"
-					color = "#FFF"
-					if setup.blur
-						backgroundColor = "rgba(43, 43, 43, .9)"
-						m.utils.bgBlur(button)
-					else
-						backgroundColor = "#282828"
-				else
-					if setup.blur
-						color = setup.color
-						backgroundColor = new Color(setup.backgroundColor)
-						rgbString = backgroundColor.toRgbString()
-						rgbaString = rgbString.replace(")", ", .9)")
-						rgbaString  = rgbaString.replace("rgb", "rgba")
-						backgroundColor = rgbaString
-						m.utils.bgBlur(button)
-					else
-						color = setup.color
-						backgroundColor = new Color(setup.backgroundColor)
-
-
-			button.backgroundColor = backgroundColor
-
-			button.on Events.TouchStart, ->
-				newColor = ""
-				if setup.style == "dark"
-					newColor = button.backgroundColor.lighten(10)
-				else
-					newColor = button.backgroundColor.darken(10)
-				button.animate
-					properties:(backgroundColor:newColor)
-					time:.5
-
-			button.on Events.TouchEnd, ->
-				button.animate
-					properties:(backgroundColor:backgroundColor)
-					time:.5
-
-		when "small"
-			@fontSize = 16
-			@top = 4
-			button.borderRadius = m.utils.px(2.5)
-			setup.fontWeight = 500
-			switch setup.style
-				when "light"
-					color = "#007AFF"
-					button.borderColor = "#007AFF"
-				else
-					color = setup.color
-					button.borderColor = setup.color
-			button.backgroundColor = "transparent"
-			button.borderWidth = m.utils.px(1)
-
-
+			m.layout.set
+				target:[button]
+			m.layout.set
+				target:[icon]
 		else
-			button.backgroundColor = "transparent"
-			color = setup.color
-			@fontSize = setup.fontSize
-			@fontWeight = setup.fontWeight
+			label = new m.Text
+				text:setup.text
+				superLayer:button
+				textTransform:"uppercase"
+				color:setup.color
+				fontSize:14
+				lineHeight:14
+				fontWeight:500
+			label.constraints =
+				align:"center"
+			button.props =
+				backgroundColor:m.color(setup.backgroundColor)
+				height:m.px(36)
+				width:label.width + m.px(16)
+				borderRadius:m.px(2)
+				clip:setup.clip
 
-			button.on Events.TouchStart, ->
-				newColor = button.subLayers[0].color.lighten(30)
-				button.subLayers[0].animate
-					properties:(color:newColor)
-					time:.5
-			button.on Events.TouchEnd, ->
-				button.subLayers[0].animate
-					properties:(color:setup.color)
-					time:.5
-
-	textLayer = new m.Text
-		name:"label"
-		text:setup.text
-		color:color
-		superLayer:button
-		fontSize:setup.fontSize
-		fontWeight:setup.fontWeight
-		constraints:
-			align:"center"
-
-	switch setup.buttonType
-		when "small"
-			button.props = (width:textLayer.width + m.utils.px(20), height: textLayer.height + m.utils.px(10))
-
-			button.on Events.TouchStart, ->
-				button.animate
-					properties:(backgroundColor:color)
-					time:.5
-				textLayer.animate
-					properties:(color:"#FFF")
-					time:.5
-			button.on Events.TouchEnd, ->
-				button.animate
-					properties:(backgroundColor:"transparent")
-					time:.5
-				textLayer.animate
-					properties:(color:color)
-					time:.5
-		else
-			button.props = (width:textLayer.width, height:textLayer.height)
+			switch setup.type
+				when "raised"
+					button.origBGC = button.backgroundColor
+					button.shadowColor = "rgba(0,0,0,.24)"
+					button.shadowY = m.px(2)
+					button.shadowBlur = m.px(2)
+					pressedBGC = button.backgroundColor.lighten(10)
+					button.on Events.TouchStart, ->
+						button.animate
+							properties:
+								backgroundColor:pressedBGC
+								shadowY:m.px(8)
+								shadowBlur:m.px(8)
+					button.on Events.TouchEnd, ->
+						button.animate
+							properties:
+								backgroundColor: button.origBGC
+								shadowY:m.px(2)
+								shadowBlur:m.px(2)
+				when "flat"
+					button.origBGC = button.backgroundColor
+					pressedBGC = button.backgroundColor.darken(5)
+					button.on Events.TouchStart, ->
+						button.animate
+							properties:
+								backgroundColor:pressedBGC
+					button.on Events.TouchEnd, ->
+						button.animate
+							properties:
+								backgroundColor: button.origBGC
 
 
+			button.constraints = setup.constraints
 
-	button.label = textLayer
-	m.layout.set
-		target:button
+			m.layout.set
+				target:[button, label]
 
-	m.layout.set
-		target:textLayer
+	if setup.ink
+		passedInk = setup.ink
+		passedInk.layer = button
+
+		m.utils.inky(passedInk)
+
+
+
+
 	return button

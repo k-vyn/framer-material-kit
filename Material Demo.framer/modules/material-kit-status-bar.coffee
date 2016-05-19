@@ -4,41 +4,52 @@ exports.defaults = {
 	carrier:""
 	network:"LTE"
 	battery:100
-	signal:5
-	style:"dark"
+	cellular:2
+	style:"light"
 	clock24:false
 	type:"statusBar"
+	backgroundColor:"rgba(0,0,0,.1)"
+	color: "black"
+	opacity:.6
 }
 
 exports.defaults.props = Object.keys(exports.defaults)
 
 exports.create = (array) ->
 	setup = m.utils.setupComponent(array, exports.defaults)
-	statusBar = new Layer backgroundColor:"transparent", name:"statusBar.all"
+	statusBar = new Layer backgroundColor:setup.backgroundColor, name:"statusBar.all"
+
+	if setup.style == "dark"
+		if setup.backgroundColor == "rgba(0,0,0,.1)"
+			statusBar.backgroundColor = m.utils.color("black")
+		if setup.color == "black"
+			setup.color = "white"
+		if setup.opacity == .6
+			setup.opacity = 1
+
+	if setup.style == "light" && setup.color != "black"
+		setup.opacity = 1
+
 	statusBar.type = setup.type
 	statusBar.constraints =
 		leading:0
 		trailing:0
-		height:20
+		height:24
+
 	switch m.device.name
 		when "iphone-6s-plus"
 			@topConstraint = 5
-			@batteryIcon = 5
 			@bluetooth = 5
 
 		when "fullscreen"
 			@topConstraint = 5
-			@batteryIcon = - 12
 			@bluetooth = - 10
 		else
 			@topConstraint = 3
-			@batteryIcon = 2
 			@bluetooth = 3
 
-	if setup.style == "light"
-		@color = "white"
-	else
-		@color = "black"
+
+
 	for layer in Framer.CurrentContext.layers
 		if layer.type == "lockScreen"
 			@isLockScreenPutilsent = true
@@ -61,108 +72,80 @@ exports.create = (array) ->
 			top:2
 	else
 		@time = m.utils.getTime()
-		if setup.clock24 == false
-			if @time.hours > 11
-				@time.stamp = "PM"
-			else
-				@time.stamp = "AM"
-		else
-			@time.stamp = ""
-		time = new m.Text style:"statusBarTime", text:m.utils.timeFormatter(@time, setup.clock24) + " " + @time.stamp, fontSize:12, fontWeight:"semibold", superLayer:statusBar, color:@color, name:"time"
+		time = new m.Text style:"statusBarTime", text:m.utils.timeFormatter(@time, setup.clock24), fontSize:14, fontWeight:500, superLayer:statusBar, color:setup.color, name:"time", opacity:setup.opacity
 		time.constraints =
-			align:"horizontal"
-			top:@topConstraint
-	signal = []
-	if setup.signal < 1
-		noNetwork = new m.Text superLayer:statusBar, fontSize:12, text:"No Network"
-		noNetwork.constraints =
-			leading:7
-			top:3
-	else
-		for i in [0...setup.signal]
-			dot = new Layer height:m.utils.px(5.5), width:m.utils.px(5.5), backgroundColor:"black", superLayer:statusBar, borderRadius:m.utils.px(5.5)/2, backgroundColor:@color, name:"signal[#{i}]"
-			if i == 0
-				dot.constraints =
-					leading:7
-					top:7
-			else
-				dot.constraints =
-					leading:[signal[i - 1 ], 1]
-					top:7
-			signal.push dot
-			m.layout.set()
-		if setup.signal < 5
-			nonDots = 5 - setup.signal
-			for i in [0...nonDots]
-				nonDot = new Layer height:m.utils.px(5.5), width:m.utils.px(5.5), superLayer:statusBar, borderRadius:m.utils.px(5.5)/2, backgroundColor:"transparent", name:"signal[#{signal.length}]"
-				nonDot.style.border = "#{m.utils.px(1)}px solid #{@color}"
-				nonDot.constraints =
-					leading:[signal[signal.length - 1], 1]
-					top:7
-				signal.push nonDot
-				m.layout.set()
-		carrier = new m.Text style:"statusBarCarrier", text:setup.carrier, superLayer:statusBar, fontSize:12, color:@color, name:"carrier", textTransform:"capitalize"
-		carrier.constraints =
-			leading:[signal[signal.length - 1], 7]
-			top:3
-		m.layout.set()
-		if setup.carrier
-			network = new m.Text style:"statusBarNetwork", text:setup.network, superLayer:statusBar, fontSize:12, color:@color, name:"network", textTransform:"uppercase"
-			network.constraints =
-				leading:[carrier, 5]
-				top:3
+			trailing:8
+			align:"vertical"
 
-		if setup.carrier == "" || setup.carrier == "wifi"
-			networkIcon = m.utils.svg(m.assets.network, @color)
-			network = new Layer width:networkIcon.width, height:networkIcon.height, superLayer:statusBar, backgroundColor:"transparent", name:"network"
-			network.html = networkIcon.svg
-			m.utils.changeFill(network, @color)
-			network.constraints =
-				leading:[signal[signal.length - 1], 5]
-				top:@topConstraint
-
-	batteryIcon = new Layer width:m.utils.px(25), height:m.utils.px(10), superLayer:statusBar, backgroundColor:"transparent", name:"batteryIcon"
+	batteryIcon = new Layer superLayer:statusBar, backgroundColor:"transparent", name:"batteryIcon"
 	if setup.battery > 70
 		highBattery = m.utils.svg(m.assets.batteryHigh)
 		batteryIcon.html = highBattery.svg
-		m.utils.changeFill(batteryIcon, @color)
+		batteryIcon.height = highBattery.height
+		batteryIcon.width = highBattery.width
+		m.utils.changeFill(batteryIcon, setup.color)
+		batteryIcon.opacity = setup.opacity
 
 	if setup.battery <= 70 && setup.battery > 20
 		midBattery = m.utils.svg(m.assets.batteryMid)
 		batteryIcon.html = midBattery.svg
-		m.utils.changeFill(batteryIcon, @color)
+		m.utils.changeFill(batteryIcon, setup.color)
 
 	if setup.battery <= 20
 		lowBattery = m.utils.svg(m.assets.batteryLow)
 		batteryIcon.html = lowBattery.svg
-		m.utils.changeFill(batteryIcon, @color)
+		m.utils.changeFill(batteryIcon, setup.color)
+
 
 	batteryIcon.constraints =
-		trailing : 7
-		top:@batteryIcon
+		trailing : [time, 7]
+		align:"vertical"
 
-	batteryPercent = new m.Text style:"statusBarBatteryPercent", text:setup.battery + "%", superLayer:statusBar, fontSize:12, color:@color, name:"batteryPercent"
-	batteryPercent.constraints =
-		trailing: [batteryIcon, 3]
-		verticalCenter:time
 
-	bluetoothSVG = m.utils.svg(m.assets.bluetooth)
-	bluetooth = new Layer width:bluetoothSVG.width, height:bluetoothSVG.height, superLayer:statusBar, opacity:.5, backgroundColor:"transparent", name:"bluetooth"
-	bluetooth.html = bluetoothSVG.svg
-	m.utils.changeFill(bluetooth, @color)
-	bluetooth.constraints =
-		top: @bluetooth
-		trailing: [batteryPercent, 7]
+	cellularIcon = m.utils.svg(m.assets.cellular)
+	cellular = new Layer
+		width:cellularIcon.width
+		height:cellularIcon.height
+		html:cellularIcon.svg
+		superLayer:statusBar
+		backgroundColor:"transparent"
+		opacity: setup.opacity
+		name:"cellular"
+
+	cellular.constraints =
+		trailing: [batteryIcon, 7]
+		align:"vertical"
+
+	m.utils.changeFill(cellular, setup.color)
+
+	wifiIcon = m.utils.svg(m.assets.wifi, setup.color)
+
+	wifi = new Layer
+		width:wifiIcon.width
+		height:wifiIcon.height
+		superLayer:statusBar
+		backgroundColor:"transparent"
+		name:"wifi"
+		html: wifiIcon.svg
+		opacity: setup.opacity
+
+	m.utils.changeFill(wifi, setup.color)
+
+	wifi.constraints =
+		trailing:[cellular, 4]
+		align:"vertical"
 
 	m.layout.set()
 
 	# Export statusBar
 	statusBar.battery = {}
-	statusBar.battery.percent = batteryPercent
+	# statusBar.battery.percent = batteryPercent
 	statusBar.battery.icon = batteryIcon
-	statusBar.bluetooth = bluetooth
+	# statusBar.bluetooth = bluetooth
 	statusBar.time = time
-	statusBar.network = network
-	statusBar.carrier = carrier
-	statusBar.signal = signal
+	# statusBar.wifi = wifi
+	statusBar.cellular = cellular
+
+	m.layout.set
+		target:[statusBar, time, batteryIcon, cellular, wifi]
 	return statusBar

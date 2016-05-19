@@ -1,130 +1,131 @@
 m = require 'material-kit'
 
 exports.defaults = {
-	title:"Title"
-	left:undefined
-	right:"Edit"
-	blur:true
-	superLayer:undefined
-	type:"navBar"
 }
 
 exports.defaults.props = Object.keys(exports.defaults)
 
 exports.create = (array) ->
 	setup = m.utils.setupComponent(array, exports.defaults)
-	bar = new Layer name:"navbar"
-	bar.constraints =
-		leading:0
-		trailing:0
-		top:0
-		height:64
 
-	barArea = new Layer superLayer:bar, backgroundColor:"transparent"
-	barArea.constraints =
-		leading:0
-		trailing:0
-		height:44
-		bottom:0
+	navbar = new Layer
+		backgroundColor:"black"
 
-	divider = new Layer backgroundColor:"#B2B2B2", name:"nav divider", superLayer:barArea
-	divider.constraints =
-		height:.5
+	navbar.constraints =
 		bottom:0
 		leading:0
 		trailing:0
+		height:48
 
-	if setup.superLayer
-		setup.superLayer.addSubLayer(bar)
+	svgHome = m.utils.svg(m.assets.home)
+	svgBack = m.utils.svg(m.assets.back)
 
-	if setup.blur
-		bar.backgroundColor = "rgba(255, 255, 255, .8)"
-		m.utils.bgBlur(bar)
-	else
-		bar.backgroundColor = "rgba(255, 255, 255, 1)"
-		m.utils.bgBlur(bar)
+	homeButton = new Layer
+		superLayer:navbar
+		borderRadius:m.utils.px(21)
+		backgroundColor:"transparent"
+		name:"home"
+		clip:true
 
-	m.layout.set([bar, barArea, divider])
-
-	bar.type = setup.type
-
-
-
-	for layer in Framer.CurrentContext.layers
-		if layer.type == "statusBar"
-			@statusBar = layer
-			bar.placeBehind(@statusBar)
-
-	if typeof setup.title == "string"
-		title = new m.Text style:"navBarTitle", fontWeight:"semibold", superLayer:barArea, text:setup.title
-	if typeof setup.title == "object"
-		title = new m.Text style:"navBarTitle", fontWeight:"semibold", superLayer:barArea, text:setup.title.label.html
-		bar.superLayer = setup.title.view
-	m.utils.specialChar(title)
-	title.constraints =
+	homeButton.constraints =
+		top:3
+		height:42
+		width:94
 		align:"horizontal"
-		bottom:12
 
-	# Handle Right
-	if typeof setup.right == "string" && typeof setup.right != "boolean"
-		bar.right = new m.Button superLayer:barArea, text:setup.right, fontWeight:500, constraints:{bottom:12, trailing:8}
-		bar.right.type = "button"
-		m.utils.specialChar(bar.right)
-	if typeof setup.right == "object"
-		bar.right = setup.right
-		bar.right.superLayer = barArea
-		bar.right.constraints = {
-			trailing:8
-			bottom:12
-		}
-	m.layout.set(bar.right)
+	homeIcon = new Layer
+		superLayer:homeButton
+		width:svgHome.width
+		height:svgHome.height
+		html:svgHome.svg
+		backgroundColor:"transparent"
+		name:"icon"
 
-	# Handle Left
-	if typeof setup.left == "string" && typeof setup.left != "boolean"
-		setLeading = 8
-		if setup.left.indexOf("<") != -1
-			svg = m.utils.svg(m.assets.chevron)
-			bar.chevron = new Layer
-				name:"chevron"
-				width:svg.width
-				height:svg.height
-				backgroundColor:"transparent"
-				superLayer:barArea
-			bar.chevron.html = svg.svg
-			bar.chevron.constraints =
-					bottom:9
-					leading:8
-			setup.left = setup.left.replace("<", "")
-			setLeading = [bar.chevron, 4]
-			m.layout.set(bar.chevron)
+	homeIcon.constraints =
+		align:"center"
 
-		bar.left = new m.Button
-			name:"left"
-			superLayer:barArea
-			text:setup.left
-			fontWeight:500
-			constraints:
-				bottom:12
-				leading:setLeading
+	recentButton = new Layer
+		superLayer:navbar
+		borderRadius:m.utils.px(21)
+		backgroundColor:"transparent"
+		name:"recent"
+		clip:true
 
-		bar.left.on Events.TouchStart, ->
-			if bar.chevron
-				bar.chevron.animate
-					properties:(opacity:.25)
-					time:.5
-		bar.left.on Events.TouchEnd, ->
-			if bar.chevron
-				bar.chevron.animate
-					properties:(opacity:1)
-					time:.5
+	recentButton.constraints =
+		top:3
+		height:42
+		width:94
+		leading:[homeButton, 6]
 
-	if typeof setup.left == "object"
-		bar.left = setup.left
-		bar.left.superLayer = barArea
-		bar.left.constraints = {
-			leading:8
-			bottom:12
-		}
+	recentIcon = new Layer
+		superLayer:recentButton
+		backgroundColor:"transparent"
+		borderColor:"white"
+		borderWidth:m.utils.px(2)
+		borderRadius:m.utils.px(2)
+		name:"icon"
 
-	m.layout.set(bar.left)
-	return bar
+	recentIcon.constraints =
+		align:"center"
+		width:16
+		height:16
+
+	backButton = new Layer
+		superLayer:navbar
+		borderRadius:m.utils.px(21)
+		backgroundColor:"transparent"
+		name:"back"
+		clip:true
+
+	backButton.constraints =
+		top:3
+		height:42
+		width:94
+		trailing:[homeButton, 6]
+
+
+	backIcon = new Layer
+		superLayer:backButton
+		width:svgBack.width
+		height:svgBack.height
+		html:svgBack.svg
+		backgroundColor:"transparent"
+		name:"icon"
+
+	backIcon.constraints =
+		align:"center"
+
+	m.layout.set
+		target:[navbar, homeButton, recentButton, backButton, homeIcon, backIcon, recentIcon]
+
+	m.utils.inky
+		layer:homeButton
+		moveToTap:false
+		color: "white"
+		scale: 20
+		curve: "bezier-curve(1, 0.4, 0.4, 1.0)"
+		opacity: .3
+	m.utils.inky
+			layer:backButton
+			moveToTap:false
+			color: "white"
+			scale: 20
+			curve: "bezier-curve(1, 0.4, 0.4, 1.0)"
+			opacity: .3
+	m.utils.inky
+			layer:recentButton
+			moveToTap:false
+			color: "white"
+			scale: 20
+			curve: "bezier-curve(1, 0.4, 0.4, 1.0)"
+			opacity: .3
+
+
+	navbar.back = backButton
+	navbar.back.backIcon = backIcon
+	navbar.home = homeButton
+	navbar.home.icon = homeIcon
+	navbar.recent = recentButton
+	navbar.recent.icon = recentIcon
+
+	return navbar

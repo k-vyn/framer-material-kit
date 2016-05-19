@@ -1,9 +1,27 @@
 m = require "material-kit"
 
-bg = new BackgroundLayer
+bg = new BackgroundLayer 
+	backgroundColor: m.color("white")
+	
 
-statusBar = new m.StatusBar
-box = new m.NavBar
+nav = new m.NavBar
 
-box.right.on Events.TouchEnd, ->
-	sheet = new m.Sheet animated:true
+status = new m.StatusBar
+	style:"dark "
+	
+bar = new m.AppBar
+	backgroundColor:m.color("white")
+	title:"Flights"
+	tabs:["Home", "Search", "Friends"]
+	tabsInk:{color:"yellow900", scale:8}
+	tabsBarColor:"yellow900"
+
+button = new m.Button 
+	constraints:{align:"center"}
+	type:"floating"
+	icon:"flight"
+	color:"white"
+	text:"download"
+	backgroundColor:"yellow900"
+	clip:true
+	ink:{color:"yellow300"}

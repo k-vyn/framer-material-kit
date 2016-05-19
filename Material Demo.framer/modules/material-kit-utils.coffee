@@ -14,44 +14,11 @@ exports.px = (pt) ->
 
 ## iOS Color – This will store all of the default iOS colors intead of the default CSS colors. *This is only up here because I refer to it in the defaults.*
 exports.color = (colorString) ->
-	color = ""
-	if typeof colorString == "string"
-		colorString = colorString.toLowerCase()
-	switch colorString
-		when "red"
-			color = new Color("#FE3824")
-		when "blue"
-			color = new Color("#0076FF")
-		when "pink"
-			color = new Color("#FE2851")
-		when "grey"
-			color = new Color("#929292")
-		when "gray"
-			color = new Color("#929292")
-		when "black"
-			color = new Color("#030303")
-		when "white"
-			color = new Color("#EFEFF4")
-		when "orange"
-			color = new Color("#FF9600")
-		when "green"
-			color = new Color("#44DB5E")
-		when "light blue"
-			color = new Color("#54C7FC")
-		when "light-blue"
-			color = new Color("#54C7FC")
-		when "yellow"
-			color = new Color("#FFCD00")
-		when "light key"
-			color = new Color("#9DA7B3")
-		when "light-key"
-			color = new Color("#9DA7B3")
-		else
-			if colorString[0] == "#" || colorString.toHexString()[0] == "#"
-				color = new Color(colorString)
-			else
-				color = new Color("#929292")
-	return color
+	if colorString[0] == "#"
+		return colorString
+	else
+		color =  new Color(m.lib.colors[colorString])
+		return color
 
 # Supporting Functions
 # Utils
@@ -97,11 +64,13 @@ exports.svg = (svg) ->
 
 # Changes the fill of an SVG
 exports.changeFill = (layer, color) ->
+	if typeof color != "object"
+		color = exports.color(color)
 	startIndex = layer.html.search("fill=\"#")
 	fillString = layer.html.slice(startIndex, layer.html.length)
-	endIndex = fillString.search("\">")
+	endIndex = fillString.search("\"") + 8
 	string = fillString.slice(0, endIndex)
-	newString = "fill=\"" + exports.color(color).toHexString()
+	newString = "fill=\"" + color
 	layer.html = layer.html.replace(string, newString)
 
 exports.capitalize = (string) ->
@@ -144,6 +113,7 @@ exports.textAutoSize = (textLayer) ->
 		fontSize: textLayer.style.fontSize
 		fontFamily: textLayer.style.fontFamily
 		fontWeight: textLayer.style.fontWeight
+		fontStyle: textLayer.style.fontStyle
 		lineHeight: textLayer.style.lineHeight
 		letterSpacing: textLayer.style.letterSpacing
 		textTransform: textLayer.style.textTransform
@@ -160,6 +130,7 @@ exports.getDevice = ->
 	if m.lib.realDevices[innerWidth] && m.lib.realDevices[innerWidth][innerHeight]
 		device = m.lib.realDevices[innerWidth][innerHeight]
 		frame = false
+		Framer.Device.deviceType = "fullscreen"
 
 	if frame
 		device =
@@ -167,6 +138,13 @@ exports.getDevice = ->
 			width :  Framer.DeviceView.Devices[Framer.Device.deviceType].screenWidth
 			height:  Framer.DeviceView.Devices[Framer.Device.deviceType].screenHeight
 			scale: m.lib.framerFrames[Framer.DeviceView.Devices[Framer.Device.deviceType].screenWidth]
+
+	if device.scale == undefined
+		device.scale = 2
+	if device.width == undefined
+		device.width = innerWidth
+	if device.height == undefined
+		device.height = innerHeight
 
 	return device
 
@@ -244,9 +222,9 @@ exports.autoColor = (colorObject) ->
 	blue = rgb[2]
 	color = ""
 	if (red*0.299 + green*0.587 + blue*0.114) > 186
-		color = "#000"
+		color = exports.color("black")
 	else
-		color = "#FFF"
+		color = exports.color("white")
 	return color
 
 exports.sameParent = (layer1, layer2) ->
@@ -307,3 +285,66 @@ exports.buildEmojisObject = () ->
 	for code, index in m.assets.emojiCodes
 		emoji = exports.emojiFormatter(code)
 		emojis.push emoji
+
+
+
+#layer, moveToTap, color, scale, curve
+exports.inky = (setup) ->
+	startX = setup.layer.width/2
+	startY = setup.layer.height/2
+
+	inkColor = "#0A0A0A"
+	inkScale = 3
+	inkCurve = "bezier-curve(.2, 0.4, 0.4, 1.0)"
+	inkOpacity = 1
+	moveToTap = true
+
+	if setup.moveToTap != undefined
+		moveToTap = setup.moveToTap
+
+	if setup.color != undefined
+		inkColor = m.color(setup.color)
+
+	if setup.scale != undefined
+		inkScale = setup.scale
+
+	if setup.curve != undefined
+		inkCurve = setup.curve
+
+	if setup.opacity != undefined
+		inkOpacity = setup.opacity
+
+	inkyEffect = (event, layer) ->
+		if moveToTap == true
+			startX = event.offsetX
+			startY = event.offsetY
+
+			if Utils.isChrome() == false && Utils.isTouch()
+				startX = event.touchCenter.x - layer.x
+				startY = event.touchCenter.y - layer.y
+
+		circle = new Layer
+			backgroundColor:inkColor
+			midX:startX
+			midY:startY
+			superLayer:layer
+			borderRadius:m.utils.px(50)
+			opacity: inkOpacity
+
+		circle.scale = .1
+		circle.animate
+			properties:(scale:inkScale, opacity:0)
+			curve:inkCurve
+			time:.5
+		Utils.delay 1, ->
+			circle.destroy()
+
+	if Utils.isChrome() && Utils.isTouch()
+		setup.layer.on Events.DoubleTap, (event) ->
+			inkyEffect(event, @)
+	if Utils.isChrome() == false && Utils.isTouch()
+		setup.layer.on Events.Tap, (event) ->
+			inkyEffect(event, @)
+	if Utils.isDesktop()
+		setup.layer.on Events.TouchEnd, (event) ->
+			inkyEffect(event, @)

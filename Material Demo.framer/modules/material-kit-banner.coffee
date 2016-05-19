@@ -2,10 +2,11 @@
 m = require 'material-kit'
 
 exports.defaults = {
-	title: "Title"
+	app: "App"
+	title:"Title"
 	message:"Message"
 	action:"Action"
-	time:"now"
+	time:"• now"
 	icon:undefined
 	duration:7
 	animated:false
@@ -15,13 +16,17 @@ exports.defaults.props = Object.keys(exports.defaults)
 
 exports.create = (array) ->
 	setup = m.utils.setupComponent(array, exports.defaults)
-	banner = new Layer backgroundColor:"transparent", name:"banner"
-	banner.html = m.utils.svg(m.assets.bannerBG[m.device.name]).svg
+	banner = new Layer
+		backgroundColor:"white"
+		name:"banner"
+		shadowColor: "rgba(0,0,0,.24)"
+		shadowBlur: m.px(2)
+		shadowY: m.px(2)
 	banner.constraints =
 		leading:0
 		trailing:0
 		top:0
-		height:68
+		height:74
 
 	# Different positionings for each device
 	switch m.device.name
@@ -51,29 +56,29 @@ exports.create = (array) ->
 	setup.icon.borderRadius = m.utils.px(4.5)
 	setup.icon.name = "icon"
 	setup.icon.constraints =
-		height:20
-		width:20
+		height:16
+		width:16
 		leading:@leadingIcon
 		top:@topIcon
 
-	title = new m.Text style:"bannerTitle", text:setup.title, color:"white", fontWeight:"medium", fontSize:13, superLayer:banner, name:"title"
+	app = new m.Text style:"app", text:setup.app, color:"blue", fontWeight:"medium", fontSize:11, superLayer:banner, name:"title"
+	app.constraints =
+		verticalCenter:setup.icon
+		leading:[setup.icon, 5]
+	title = new m.Text style:"title", text:setup.title, color:"black", fontSize:13, superLayer:banner, name:"title"
 	title.constraints =
-		top:@topTitle
-		leading:[setup.icon, 11]
-	message = new m.Text style:"bannerMessage", text:setup.message, color:"white", fontSize:13, superLayer:banner, name:"message"
+		leadingEdges:setup.icon
+		top:[setup.icon, 7]
+
+	message = new m.Text style:"title", text:setup.message, color:"grey", fontSize:13, superLayer:banner, name:"title"
 	message.constraints =
-		leadingEdges:title
-		top:[title, 2]
+		leadingEdges:setup.icon
+		top:[title, 5]
 
-	time = new m.Text style:"bannerTime", text:setup.time, color:"white", fontSize:11, superLayer:banner, name:"time"
+	time = new m.Text style:"time", text:setup.time, color:"grey", fontSize:11, superLayer:banner, name:"time"
 	time.constraints =
-		leading:[title, 5]
-		bottomEdges: title
-
-	if m.device.name == "ipad" || m.device.name == "ipad-pro"
-		time.constraints =
-			bottomEdges: title
-			trailing: @leadingIcon
+		leading:[app, 3]
+		bottomEdges: app
 
 	m.layout.set()
 	m.utils.bgBlur(banner)
@@ -107,7 +112,7 @@ exports.create = (array) ->
 		banner.animate
 			properties:(y:0)
 			time:.25
-			curve:"ease-in-out"
+			curve:"spring(400,20,0)"
 
 	# Animate-out
 	if setup.duration
@@ -121,6 +126,7 @@ exports.create = (array) ->
 
 	# Export Banner
 	banner.icon = setup.icon
+	banner.app = app
 	banner.title = title
 	banner.message = message
 	return banner
