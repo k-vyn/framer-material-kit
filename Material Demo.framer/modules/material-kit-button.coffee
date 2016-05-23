@@ -47,7 +47,7 @@ exports.create = (array) ->
 			if typeof setup.icon == "string"
 				icon = m.Icon
 					name:setup.icon
-					color:m.color(setup.color)
+					color:setup.color
 					superLayer:button
 					constraints:{align:"center"}
 
@@ -72,6 +72,9 @@ exports.create = (array) ->
 				width:label.width + m.px(16)
 				borderRadius:m.px(2)
 				clip:setup.clip
+
+			if button.width < m.px(64)
+				button.width = m.px(64)
 
 			switch setup.type
 				when "raised"

@@ -549,6 +549,11 @@ exports.realDevices =
 			height:1280
 			scale:2
 	750:
+		1118:
+			name:"iPhone 6"
+			width:750
+			height:1118
+			scale:2
 		1334:
 			name:"iPhone 6"
 			width:750

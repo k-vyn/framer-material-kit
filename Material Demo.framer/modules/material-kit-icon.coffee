@@ -14,10 +14,11 @@ exports.create = (array) ->
   setup = m.utils.setupComponent(array, exports.defaults)
   iconLayer = new Layer
     html:"<i class='material-icons md-24'>#{setup.name}</i>"
-    color:setup.color
+    color:m.color(setup.color)
     backgroundColor:"transparent"
     clip:true
-    name:"icon"
+    name:setup.name
+    superLayer:setup.superLayer
   frame = m.utils.textAutoSize(iconLayer)
   iconLayer.html = "<span style='-webkit-transform: scale(#{setup.scale}); position: absolute;'>" + iconLayer.html
   iconLayer.width = m.px(frame.width)
@@ -42,9 +43,6 @@ exports.create = (array) ->
     "text-align" : "center"
     "padding-right" : styles.right
     "padding-bottom" : styles.bottom
-
-  if setup.superLayer
-    iconLayer.superLayer = setup.superLayer
 
   if setup.constraints
     iconLayer.constraints = setup.constraints

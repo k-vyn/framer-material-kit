@@ -1,34 +1,36 @@
 app.coffee
 app.js
-framer/backups/backup-2016-05-18 23.17.30.coffee
-framer/backups/backup-2016-05-18 23.18.29.coffee
-framer/backups/backup-2016-05-18 23.18.30.coffee
-framer/backups/backup-2016-05-18 23.19.29.coffee
-framer/backups/backup-2016-05-18 23.19.30.coffee
-framer/backups/backup-2016-05-18 23.22.30.coffee
-framer/backups/backup-2016-05-18 23.23.29.coffee
-framer/backups/backup-2016-05-18 23.29.30.coffee
-framer/backups/backup-2016-05-18 23.30.29.coffee
-framer/backups/backup-2016-05-18 23.38.29.coffee
-framer/backups/backup-2016-05-18 23.38.30.coffee
-framer/backups/backup-2016-05-18 23.39.29.coffee
-framer/backups/backup-2016-05-18 23.39.30.coffee
-framer/backups/backup-2016-05-18 23.50.29.coffee
-framer/backups/backup-2016-05-18 23.50.30.coffee
-framer/backups/backup-2016-05-18 23.51.29.coffee
-framer/backups/backup-2016-05-18 23.51.30.coffee
-framer/backups/backup-2016-05-18 23.52.29.coffee
-framer/backups/backup-2016-05-18 23.52.30.coffee
-framer/backups/backup-2016-05-18 23.53.29.coffee
-framer/backups/backup-2016-05-18 23.54.29.coffee
+framer/backups/backup-2016-05-22 21.30.31.coffee
+framer/backups/backup-2016-05-22 21.31.31.coffee
+framer/backups/backup-2016-05-22 21.32.31.coffee
+framer/backups/backup-2016-05-22 21.33.31.coffee
+framer/backups/backup-2016-05-22 21.40.31.coffee
+framer/backups/backup-2016-05-22 21.41.31.coffee
+framer/backups/backup-2016-05-22 21.42.31.coffee
+framer/backups/backup-2016-05-22 21.43.31.coffee
+framer/backups/backup-2016-05-22 21.45.31.coffee
+framer/backups/backup-2016-05-22 21.46.31.coffee
+framer/backups/backup-2016-05-22 21.47.31.coffee
+framer/backups/backup-2016-05-22 21.48.31.coffee
+framer/backups/backup-2016-05-22 21.49.32.coffee
+framer/backups/backup-2016-05-22 21.50.31.coffee
+framer/backups/backup-2016-05-22 21.51.31.coffee
+framer/backups/backup-2016-05-22 21.53.31.coffee
+framer/backups/backup-2016-05-22 21.54.31.coffee
+framer/backups/backup-2016-05-22 21.57.31.coffee
+framer/backups/backup-2016-05-22 21.59.31.coffee
+framer/backups/backup-2016-05-22 22.00.31.coffee
+framer/backups/backup-2016-05-22 22.01.31.coffee
 framer/coffee-script.js
 framer/config.json
+framer/framer.generated (Kevyn's Macbook Pro's conflicted copy 2016-05-19).js
 framer/framer.generated.js
 framer/framer.init.js
 framer/framer.js
 framer/framer.js.map
 framer/framer.modules (J’s iMac's conflicted copy 2016-05-18 (1)).js
 framer/framer.modules (J’s iMac's conflicted copy 2016-05-18).js
+framer/framer.modules (J’s iMac's conflicted copy 2016-05-19).js
 framer/framer.modules (Kevyn's Macbook Pro's conflicted copy 2016-05-18 (1)).js
 framer/framer.modules (Kevyn's Macbook Pro's conflicted copy 2016-05-18 (2)).js
 framer/framer.modules (Kevyn's Macbook Pro's conflicted copy 2016-05-18 (3)).js
@@ -59,18 +61,20 @@ framer/style.css
 framer/version
 images/Favorites.svg
 index.html
-modules/material-kit-alert.coffee
+modules/demo_data.coffee
 modules/material-kit-app-bar.coffee
 modules/material-kit-banner.coffee
 modules/material-kit-button.coffee
+modules/material-kit-dialog.coffee
 modules/material-kit-field.coffee
 modules/material-kit-icon.coffee
 modules/material-kit-keyboard.coffee
 modules/material-kit-layout.coffee
 modules/material-kit-library.coffee
 modules/material-kit-nav-bar.coffee
+modules/material-kit-stack.coffee
 modules/material-kit-status-bar.coffee
-modules/material-kit-tab-bar.coffee
 modules/material-kit-text.coffee
 modules/material-kit-utils.coffee
+modules/material-kit-video.coffee
 modules/material-kit.coffee

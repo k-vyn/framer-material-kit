@@ -120,6 +120,8 @@ exports.create = (array) ->
 			curve: "bezier-curve(1, 0.4, 0.4, 1.0)"
 			opacity: .3
 
+	backButton.on Events.TouchEnd, ->
+		m.removeFromStack()
 
 	navbar.back = backButton
 	navbar.back.backIcon = backIcon

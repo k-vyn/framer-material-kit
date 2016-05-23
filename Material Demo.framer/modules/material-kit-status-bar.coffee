@@ -50,32 +50,13 @@ exports.create = (array) ->
 
 
 
-	for layer in Framer.CurrentContext.layers
-		if layer.type == "lockScreen"
-			@isLockScreenPutilsent = true
-	if @isLockScreenPutilsent
-		gripper = new Layer superLayer:statusBar, width:utils.px(37), height:utils.px(5), name:"gripper", backgroundColor:"transparent", opacity:.5, name:"gripper"
-		gripper.html = "<?xml version='1.0' encoding='UTF-8' standalone='no'?>
-			<svg width='#{utils.px(37)}px' height='#{utils.px(5)}px' viewBox='0 0 37 5' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
-				<!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
-				<title>Gripper</title>
-				<desc>Created with Sketch.</desc>
-				<defs></defs>
-				<g id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'>
-					<g id='Keyboard/Auto-Complete-Bar-Closed' transform='translate(-169.000000, -2.000000)' fill='#FFFFFF'>
-						<rect id='Gripper' x='169.5' y='2.5' width='36' height='4' rx='2.5'></rect>
-					</g>
-				</g>
-			</svg>"
-		gripper.constraints =
-			align:"horizontal"
-			top:2
-	else
-		@time = m.utils.getTime()
-		time = new m.Text style:"statusBarTime", text:m.utils.timeFormatter(@time, setup.clock24), fontSize:14, fontWeight:500, superLayer:statusBar, color:setup.color, name:"time", opacity:setup.opacity
-		time.constraints =
-			trailing:8
-			align:"vertical"
+	@time = m.utils.getTime()
+	time = new m.Text style:"statusBarTime", text:m.utils.timeFormatter(@time, setup.clock24), fontSize:14, fontWeight:500, superLayer:statusBar, color:setup.color, name:"time", opacity:setup.opacity
+	time.constraints =
+		trailing:8
+		align:"vertical"
+	m.utils.timeDelegate(time, setup.clock24)
+
 
 	batteryIcon = new Layer superLayer:statusBar, backgroundColor:"transparent", name:"batteryIcon"
 	if setup.battery > 70

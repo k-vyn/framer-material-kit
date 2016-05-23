@@ -5,6 +5,7 @@
 exports.layout = layout = require 'material-kit-layout'
 exports.lib = library = require 'material-kit-library'
 exports.utils = utils = require 'material-kit-utils'
+exports.stack = stack = require 'material-kit-stack'
 
 # Setup resources
 exports.device = utils.getDevice()
@@ -20,9 +21,17 @@ exports.dp = (px) ->
 exports.px = (dp) ->
   return exports.utils.px(dp)
 
+exports.stack = stack.stack
+
+exports.addToStack = (layer) ->
+  stack.addToStack(layer)
+
+exports.removeFromStack = (layer) ->
+  stack.removeFromStack(layer)
+
 
 # Import Components
-alert = require 'material-kit-alert'
+dialog = require 'material-kit-dialog'
 appbar = require 'material-kit-app-bar'
 banner = require 'material-kit-banner'
 button = require 'material-kit-button'
@@ -31,11 +40,11 @@ icon = require 'material-kit-icon'
 keyboard = require 'material-kit-keyboard'
 nav = require 'material-kit-nav-bar'
 status = require 'material-kit-status-bar'
-tab = require 'material-kit-tab-bar'
 text = require 'material-kit-text'
+video = require 'material-kit-video'
 
 ## Setup Components
-exports.Alert = alert.create
+exports.Dialog = dialog.create
 exports.AppBar = appbar.create
 exports.Banner = banner.create
 exports.Button = button.create
@@ -44,6 +53,5 @@ exports.Icon = icon.create
 exports.Keyboard = keyboard.create
 exports.NavBar = nav.create
 exports.StatusBar = status.create
-exports.Tab = tab.tab
-exports.TabBar = tab.bar
 exports.Text = text.create
+exports.Video = video.create
