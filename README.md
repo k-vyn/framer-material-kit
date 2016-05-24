@@ -29,16 +29,16 @@ There are three core pieces that make up iOS Kit. There is the foundational elem
 - [Real device override](#real)
 - [Device details library](#details)<br>
 <u><b>[System Components](#system)</b></u>
-- [App Bar](#appbar)
+- [App Bar](#app)
 - [Dialog](#dialog)
 - [Banner](#banner)
 - [Button](#button)
-- [Icon](#field)
-- [Navigation Bar](#keyboard)
-- [Snack Bar](#nav)
-- [Status Bar](#sheet)
-- [Text](#status)
-- [Video](#tab)
+- [Icon](#icon)
+- [Navigation Bar](#nav)
+- [Snack Bar](#snack)
+- [Status Bar](#status)
+- [Text](#text)
+- [Video](#video==)
 <u><b>[Supporting Functions](#supporting)</b></u><br>
 <u><b>[How to Contribute](#contribute)</b></u>
 
@@ -293,7 +293,7 @@ To provide even more customization, any string in an action context can have the
 
 ## Dialog
  
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/alert.png)
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/dialog.png)
 
 Alerts are blocking notifications that will force the users to address the alert before continuing. 
 
