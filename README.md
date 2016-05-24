@@ -1,6 +1,7 @@
-# iOS Kit for FramerJS
+# Material Kit for FramerJS
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/logo.png)
 
-iOS Kit was created to make prototyping for iOS fast and easy without compromising the quality or customization.
+Material Kit was created to make prototyping for iOS fast and easy without compromising the quality or customization.
 
 There are three core pieces that make up iOS Kit. There is the foundational elements that help iOS Kit mold to devices. There is the component library that’ll save you time by providing native iOS offerings, and then there’s the supporting functions that help power the foundation & components.
 
@@ -283,8 +284,6 @@ After creation, components will operate as native layers under the variable name
 
 ## Material Colors
 ![](https://dl.dropboxusercontent.com/u/143270556/material-kit/colors.png)
-
-
 
 <div id='status' />
 ## Status Bar 
