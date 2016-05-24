@@ -31,10 +31,10 @@ exports.removeFromStack = (layer) ->
 
 
 # Import Components
-dialog = require 'material-kit-dialog'
 appbar = require 'material-kit-app-bar'
 banner = require 'material-kit-banner'
 button = require 'material-kit-button'
+dialog = require 'material-kit-dialog'
 icon = require 'material-kit-icon'
 nav = require 'material-kit-nav-bar'
 snackbar = require 'material-kit-snack-bar'
@@ -43,10 +43,10 @@ text = require 'material-kit-text'
 video = require 'material-kit-video'
 
 ## Setup Components
-exports.Dialog = dialog.create
 exports.AppBar = appbar.create
 exports.Banner = banner.create
 exports.Button = button.create
+exports.Dialog = dialog.create
 exports.Icon = icon.create
 exports.NavBar = nav.create
 exports.SnackBar = snackbar.create

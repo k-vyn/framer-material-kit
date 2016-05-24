@@ -135,4 +135,5 @@ exports.create = (array) ->
 	Utils.interval .5, ->
 		navbar.bringToFront()
 
+	m.layout.set(navbar)
 	return navbar

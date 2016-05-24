@@ -26,7 +26,7 @@ exports.create = (array) ->
 	setup = m.utils.setupComponent(array, exports.defaults)
 	bar = new Layer
 		name:"App Bar"
-		backgroundColor:setup.backgroundColor
+		backgroundColor:m.color(setup.backgroundColor)
 		shadowColor: "rgba(0, 0, 0, .12)"
 		shadowBlur: m.px(4)
 		shadowY: m.px(2)
@@ -63,10 +63,10 @@ exports.create = (array) ->
 			bar.placeBehind(@statusBar)
 
 	if setup.titleColor == "black"
-		setup.titleColor = m.utils.autoColor(setup.backgroundColor).toHexString()
+		setup.titleColor = m.utils.autoColor(bar.backgroundColor).toHexString()
 
 	if setup.actionColor == "black"
-		setup.actionColor = m.utils.autoColor(setup.backgroundColor).toHexString()
+		setup.actionColor = m.utils.autoColor(bar.backgroundColor).toHexString()
 
 	if typeof setup.title == "string"
 		title = new m.Text
@@ -197,7 +197,7 @@ exports.create = (array) ->
 					bottom:0
 				m.layout.set(tab)
 				if setup.tabsColor == undefined
-					setup.tabsColor = m.utils.autoColor(setup.backgroundColor).toHexString()
+					setup.tabsColor = m.utils.autoColor(bar.backgroundColor).toHexString()
 				label = ""
 				if setup.tabIcons
 					icon = setup.tabIcons[i]
@@ -225,10 +225,11 @@ exports.create = (array) ->
 				tab.on Events.TouchEnd, ->
 					bar.activeTab = @
 					handleTabStates(bar, @)
-
-	bar.activeTab = bar.tabs[setup.tabs[0]]
+	if setup.tabs.length > 2
+		bar.activeTab = bar.tabs[setup.tabs[0]]
+		handleTabStates(bar, bar.activeTab)
 	bar.title = title
-	handleTabStates(bar, bar.activeTab)
+
 
 
 	return bar

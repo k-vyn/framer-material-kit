@@ -10,7 +10,7 @@ status = new m.StatusBar
 	color:"white"
 	
 bar = new m.AppBar
-	backgroundColor:m.color("red600")
+	backgroundColor:"red600"
 	title:"YouTube"
 	tabs:["YouTube Red", "trending", "subscriptions", "account"]
 	tabIcons:["home", "whatshot", "subscriptions", "person"]
@@ -76,6 +76,10 @@ loadTable = (table, superLayer) ->
 			
 			view = new Layer backgroundColor:"white"
 			view.constraints = {top:0, bottom:nav, leading:0, trailing:0}
+			view.y = m.device.height
+			view.animate
+				properties:(y:0)
+				time:.5
 			m.layout.set()
 
 			video = new m.Video 
@@ -204,7 +208,8 @@ m.layout.set()
 bar.tabs["trending"].on Events.TouchEnd, ->
 	snack = new m.SnackBar
 		animated:true
-		text:"Trending not included"
+		text:"Something went right"
+		action:"Send"
 		
 bar.tabs["subscriptions"].on Events.TouchEnd, ->
 	snack = new m.SnackBar

@@ -119,7 +119,7 @@ exports.create = (array) ->
 			time:.3
 		if setup.action
 			bar.action.animate
-				properties:(opacity:0)
+				properties:(opacity:1)
 				time:.3
 		if fabExists
 			m.layout.animate
