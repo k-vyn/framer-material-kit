@@ -9,6 +9,8 @@ nav = new m.NavBar
 status = new m.StatusBar
 	color:"white"
 	
+banner = new m.Banner
+	
 bar = new m.AppBar
 	backgroundColor:"red600"
 	title:"YouTube"

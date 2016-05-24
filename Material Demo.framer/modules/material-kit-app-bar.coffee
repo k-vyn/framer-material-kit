@@ -2,10 +2,8 @@ m = require 'material-kit'
 
 exports.defaults = {
 	title:"Title"
-	leftAction:undefined
-	right:"Edit"
-	blur:true
-	superLayer:undefined
+	menu:undefined
+
 	type:"appbar"
 	backgroundColor:"white"
 	tabs:undefined
@@ -97,7 +95,7 @@ exports.create = (array) ->
 					name:act
 					superLayer:barArea
 					constraints:{trailing:24, verticalCenter:title}
-					color:setup.titleColor
+					color:setup.actionColor
 					clip:false
 				actionsArray.push icon
 			else
@@ -105,7 +103,7 @@ exports.create = (array) ->
 					name:act
 					superLayer:barArea
 					constraints:{trailing:[actionsArray[i - 1], 24], verticalCenter:title}
-					color:setup.titleColor
+					color:setup.actionColor
 					clip:false
 				actionsArray.push icon
 

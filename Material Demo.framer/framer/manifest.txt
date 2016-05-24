@@ -1,9 +1,5 @@
 app.coffee
 app.js
-framer/backups/backup-2016-05-24 08.35.58.coffee
-framer/backups/backup-2016-05-24 08.36.58.coffee
-framer/backups/backup-2016-05-24 08.37.58.coffee
-framer/backups/backup-2016-05-24 08.38.58.coffee
 framer/backups/backup-2016-05-24 08.39.58.coffee
 framer/backups/backup-2016-05-24 08.40.58.coffee
 framer/backups/backup-2016-05-24 08.41.58.coffee
@@ -21,8 +17,13 @@ framer/backups/backup-2016-05-24 09.10.58.coffee
 framer/backups/backup-2016-05-24 09.11.58.coffee
 framer/backups/backup-2016-05-24 10.46.20.coffee
 framer/backups/backup-2016-05-24 10.55.05.coffee
+framer/backups/backup-2016-05-24 13.18.39.coffee
+framer/backups/backup-2016-05-24 15.39.56.coffee
+framer/backups/backup-2016-05-24 15.55.56.coffee
+framer/backups/backup-2016-05-24 16.11.07.coffee
 framer/coffee-script.js
 framer/config.json
+framer/framer.generated (J’s iMac's conflicted copy 2016-05-24).js
 framer/framer.generated.js
 framer/framer.init.js
 framer/framer.js

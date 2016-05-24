@@ -132,7 +132,7 @@ exports.create = (array) ->
 	navbar.recent = recentButton
 	navbar.recent.icon = recentIcon
 
-	Utils.interval .5, ->
+	Utils.interval .05, ->
 		navbar.bringToFront()
 
 	m.layout.set(navbar)
