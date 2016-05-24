@@ -1,17 +1,11 @@
 # Material Kit for FramerJS
 ![](https://dl.dropboxusercontent.com/u/143270556/material-kit/logo.png)
 
-Material Kit was created to make prototyping for iOS fast and easy without compromising the quality or customization.
+Material Kit was created to make prototyping with Material Design fast and easy without compromising the quality or customization.
 
-There are three core pieces that make up iOS Kit. There is the foundational elements that help iOS Kit mold to devices. There is the component library that’ll save you time by providing native iOS offerings, and then there’s the supporting functions that help power the foundation & components.
+There are three core pieces that make up Material Kit. There is the foundational elements that help Material Kit mold to devices. There is the component library that’ll save you time by providing material offerings, and then there’s the supporting functions that help power the foundation & components.
 
-##Updates
-**Date** Major code cleanup:
-
-- The module is now broken into subcoffee files, and it's stitched together with the `ios-kit.coffee`. 
-- Layout functions have been changed from `ios.layout()` to `ios.layout.set()` and `ios.animateLayout()` to `ios.layout.animate()`. 
-- All supporting functions were moved to `ios.utils` and all assets were moved to `ios.library`. 
-- Added Contribution section to **README**.
+If you're interested in prototyping with iOS, check out the [iOS Kit for FramerJS](https://github.com/k-vyn/framer-ios-kit)
 
 # Table of Contents
 - [Setup](#setup)<br>
@@ -47,30 +41,29 @@ There are three core pieces that make up iOS Kit. There is the foundational elem
 ## Setup
 To setup the kit, add the following list of files to your modules folder in your project. Don't worry, you'll only need to require one. <br><br>
 <pre>
-ios-kit.coffee
-ios-kit-alert.coffee
-ios-kit-banner.coffee
-ios-kit-button.coffee
-ios-kit-field.coffee
-ios-kit-keyboard.coffee
-ios-kit-layout.coffee
-ios-kit-library.coffee
-ios-kit-nav-bar.coffee
-ios-kit-sheet.coffee
-ios-kit-status-bar.coffee
-ios-kit-tab-bar.coffee
-ios-kit-text.coffee
-ios-kit-utils.coffee
+material-kit.coffee
+material-kit-dialog.coffee
+material-kit-appbar.coffee
+material-kit-banner.coffee
+material-kit-button.coffee
+material-kit-layout.coffee
+material-kit-library.coffee
+material-kit-nav-bar.coffee
+material-kit-status-bar.coffee
+material-kit-snack-bar.coffee
+material-kit-stack.coffee
+material-kit-icon.coffee
+material-kit-text.coffee
+material-kit-utils.coffee
+material-kit-video.coffee
 </pre>
 
 **Please note:** that Framer Studio currently doesn't support subfolders in the modules folder, so they'll need to be added to the root. 
 
-
-
 In Framer Studio, write – 
-`ios = require 'iOSKit'`
+`m = require 'material-kit'`
 
-You can write any variable name you'd like, but for the purposes of this guide we'll be using `ios`.
+You can write any variable name you'd like, but for the purposes of this guide we'll be using `m`.
 
 <div id='foundational' />
 ## Foundational Elements
@@ -83,13 +76,13 @@ The most fundamental piece of this module is Dynamic Layout. Dynamic Layout is a
 
 <div id='point' />
 #### The Point 
-In Dynamic Layout, like in iOS, everything is based around the point instead of the pixel. The exact number of pixels will change from device to device, but the number of points will not. There's a simple equation for finding points. 
+In Dynamic Layout, like in Android, everything is based around the point instead of the pixel. The exact number of pixels will change from device to device, but the number of points will not. There's a simple equation for finding points. 
 
 `1pt = 1px * scale`
 
 Side note: you can also use the built-in functions. 
-`ios.pt(6) #returns 3 points on iPhone 6 and 2 points on iPhone 6 plus` 
-`ios.px(1) #returns 2 pixels on iPhone 6 and 3 pixels on iPhone 6 plus`
+`m.pt(6) #returns 3 points on iPhone 6 and 2 points on iPhone 6 plus` 
+`m.px(1) #returns 2 pixels on iPhone 6 and 3 pixels on iPhone 6 plus`
 
 #### Positioning
 
@@ -104,12 +97,12 @@ layer = new Layer
 layer.constraints = 
     top:10
     leading:10
-ios.layout.set()
+m.layout.set()
 </pre>
 
 This will position the layer at x:20, y:20 on iPhone 6, and x:30, y:30 on iPhone 6 plus.
 
-Side note: you can also do this on one line if you'd prefer using this syntax. Just replace the layer.constraints line from above with this line. You'll still need to run the ios.layout.set function.
+Side note: you can also do this on one line if you'd prefer using this syntax. Just replace the layer.constraints line from above with this line. You'll still need to run the m.layout.set function.
 
 <pre>
 layer.constraints = {top:10, leading:10}
@@ -134,7 +127,7 @@ When you declare a constraint, you can set a constraint as a layer instead of an
 <pre>
 boxB.constraints = 
 	<b>top:boxA</b>
-ios.layout.set()
+m.layout.set()
 </pre>
 
 <p>This will stack the boxes so that boxB's top edge is constrained to below boxA, but what if you want a little buffer? That's really easy. We'll use a little different syntax with wrapping the layer and buffer in brackets.</p>
@@ -142,7 +135,7 @@ ios.layout.set()
 <pre>
 boxB.constraints = 
 	<b>top:[boxA, 10]</b>
-ios.layout.set()
+m.layout.set()
 </pre>
 
 This will set boxB's top edge to 10 points below boxA. 
@@ -158,7 +151,7 @@ For example, if you'd like boxB to be horizontally centered on boxA, write this:
 boxB.constraints = 
 	top:[boxA, 10]
 	<b>horizontalCenter:boxA</b>
-ios.layout.set()
+m.layout.set()
 </pre>
 
 This will set boxB 10 points below boxA, and it'll center it within boxA on the x-axis. The other centering constraint verticalCenter will work simliarly center boxB within boxA on the y-axis. If you've set a top/bottom constraint, it'll ignore those constraints.
@@ -173,12 +166,12 @@ If you'd like to align boxB's trailing edge onto boxA's trailing edge, write thi
 boxB.constraints = 
 	top:[boxA, 10]
 	<b>trailingEdges:boxA</b>
-ios.layout.set()
+m.layout.set()
 </pre>
 
 <div id='animating' />
 #### Animating Constraints
-You can animate between constraints by running ` ios.layout.animate()`. 
+You can animate between constraints by running ` m.layout.animate()`. 
 
 ##### Properties
 - **target (optional)** *Layer or Array of layers* <br> When set, this will only animate the target layers with updated constraints. When this is not set, it'll animate all layers with their updated constraints.
@@ -194,7 +187,7 @@ If we have a bunch of layers in a column and we want them to all move up, we can
 <pre>
 topLayer.constraints.top = 50 ##Set a new constraint
 
-ios.animateLayout
+m.animateLayout
 	stagger:.05
 	curve:"spring"
 
@@ -232,20 +225,20 @@ boxB.constraints =
 	trailingEdges:boxA
 	<b>height:100</b>
 	<b>width:100</b>
-ios.layout.set()
+m.layout.set()
 </pre>
 
 <div id='layout' />
-####ios.layout.set()
+####m.layout.set()
 This function only need to be called once for all constraints. It'll cycle through all the layers in order of creation, and it'll fulfill all constraints. 
 
 #####When to call it
-You'll need to call it before any x/y positions are referenced. If you have a function that's based off another layer, you'll need to call ios.layout.set before that positioning is stored otherwise it'll be wrong or 0. Once you call ios.layout.set(), it'll set the position to the accurate position. <br><br>
+You'll need to call it before any x/y positions are referenced. If you have a function that's based off another layer, you'll need to call m.layout.set before that positioning is stored otherwise it'll be wrong or 0. Once you call m.layout.set(), it'll set the position to the accurate position. <br><br>
 
 #####Mixing up the queue
-ios.layout.set will accept layers in the parathesis. This will layout **only** that layer and ignore all other constraints. This is to be used if a layer created after others needs to be laid out before others.<br>
+m.layout.set will accept layers in the parathesis. This will layout **only** that layer and ignore all other constraints. This is to be used if a layer created after others needs to be laid out before others.<br>
 
-`ios.layout.set(boxB)`
+`m.layout.set(boxB)`
 This will only layout boxB and not boxA. 
 <br>
 You may also want to play with the creation order if you're having issues with relationships.  
@@ -259,10 +252,10 @@ For this to work properly, you'll need a full-screen browser. I use & recommend 
 ### Device details library
 You’ll now be able to refer to a set of new variables that’ll allow you to get more details on the device.
 
-<pre><b>ios.scale</b> # returns 1,2,3
-<b>ios.height</b> # returns the height of the device in pixels
-<b>ios.width</b> # returns the width of the device in pixels
-<b>ios.device</b> # returns one of the device names below 
+<pre><b>m.scale</b> # returns 1,2,3
+<b>m.height</b> # returns the height of the device in pixels
+<b>m.width</b> # returns the width of the device in pixels
+<b>m.device</b> # returns one of the device names below 
 	<b>ipad</b> # for any iPad other than the pro
 	<b>ipad-pro</b> # for the iPad Pro
 	<b>iphone-5</b> # for iPhone 5, iPhone 5s, iPhone 5c, and iPhone SE
@@ -302,7 +295,7 @@ The status bar allows users to see the connection, current time, and battery.
 
 #### Example
 <pre>
-statusBar = new ios.StatusBar
+statusBar = new material-kit.StatusBar
 	carrier:"Verizon"
 	network:"3G"
 	battery:70
@@ -338,7 +331,7 @@ The navigation bar is made up of 3 elements, two actions and a title.
 
 #### Example
 <pre>
-nav = new ios.NavBar 
+nav = new material-kit.NavBar 
 	right:"Share"
 	left:"< Back"
 	title:"Document"
@@ -379,7 +372,7 @@ The banner is a non-blocking notification. Typically, the banner will send you t
 
 #### Example
 <pre>
-banner = new ios.Banner 
+banner = new material-kit.Banner 
 	title:"Time to do something"
 	message:"Don't miss out"
 	icon:iconLayer
@@ -417,7 +410,7 @@ Alerts are blocking notifications that will force the users to address the alert
 
 #### Example
 <pre>
-alert = new ios.Alert
+alert = new material-kit.Alert
 	title:"Warning"
 	message:"Don't do this"
 	actions:["OK", "Cancel"]
@@ -461,8 +454,8 @@ A dynamic text object that'll automatically size for you.
 
 ####Example
 <pre>
-	text = new ios.Text
-		text:"Try iOS Kit for Framer JS"
+	text = new m.Text
+		text:"Try m Kit for Framer JS"
 		fontSize:21
 		fontWeight:100
 		width:320
@@ -496,7 +489,7 @@ Button is a small versatile component that handles press states automatically.
 
 #### Example
 <pre>
-button = new ios.Button
+button = new m.Button
 	text:"Download"
 	buttonType:"small"
 	color:"red"
@@ -527,47 +520,47 @@ Listening to buttons is no different than normal framer.<br>
 ## Supporting Functions
 These are a set of functions that were created to help provide functionality to various elements of this module. I opened them up, so if you by chance need any of these functions you can use them. 
 
-#### ios.utils.update(layer, styleArray)
-This was specifically intended for text objects. If the html or style of a text object is altered, the width/height of the object would be incorrect. With ios.update, you'll be able to pass your changes in while also resizing the text layer.
+#### m.utils.update(layer, styleArray)
+This was specifically intended for text objects. If the html or style of a text object is altered, the width/height of the object would be incorrect. With m.update, you'll be able to pass your changes in while also resizing the text layer.
 
 <pre>
-ios.update(headerOne, [text:"Done!"]
+m.update(headerOne, [text:"Done!"]
 </pre>
 
-#### ios.utils.pt(int) & ios.utils.px(int)
+#### m.utils.pt(int) & m.utils.px(int)
 These functions will automatically convert pixels -> points and points -> pixels.
 <pre>
-ios.pt(6) # will return 3 points on an iPhone 6
-ios.px(6) # will return 12 pixels on an iPhone 6
+m.pt(6) # will return 3 points on an iPhone 6
+m.px(6) # will return 12 pixels on an iPhone 6
 </pre>
 
-####ios.utils.clean(string)
+####m.utils.clean(string)
 This will remove any space or bracket HTML syntax from a string.
-ios.clean("`Hi,&nbsp;how&nbsp;are&nbsp;you?<br>`") returns "Hi, how are you?"
+m.clean("`Hi,&nbsp;how&nbsp;are&nbsp;you?<br>`") returns "Hi, how are you?"
 
-####ios.utils.svg(svg path)
+####m.utils.svg(svg path)
 This does a series of things: it'll rewrite the SVG path into points, and it'll provide variables to set the layer's height and width.
 <pre>
-svgObj = ios.svg(svgPath)
+svgObj = m.svg(svgPath)
 svgObj.svg = # is the new SVG path in points
 svgObj.height = # is the value for the height of the layer
 svgObj.width = # is the value for the width of the layer 
 </pre>
 
-####ios.utils.changeFill(layer, color)
+####m.utils.changeFill(layer, color)
 This only works with layers with a SVG path. This will change the SVG fill to whatever color is passed.
 
-####ios.utils.capitalize(string)
+####m.utils.capitalize(string)
 This will capitalize only the first letter of the entire string.
 <pre>
-print ios.capitalize("welcome to the party") #returns "Welcome to the party"
+print m.capitalize("welcome to the party") #returns "Welcome to the party"
 </pre>
 
-####ios.utils.getTime()
+####m.utils.getTime()
 Fetches the current time and returns a neatly organized time object with some humanization.
 
 <pre>
-time = ios.getTime()
+time = m.getTime()
 
 print time.month # prints "April"
 print time.date # prints "12"
@@ -577,30 +570,30 @@ print time.mins # prints "33"
 print time.secs # prints "1"
 </pre>
 
-####ios.utis.timeDelegate(layer, clock24)
+####m.utis.timeDelegate(layer, clock24)
 This sets up a reoccuring task at the top of every minute to update whatever layer passed to the current time. If clock24 is set to true, it'll return 24-hour clock values. If set to false or omitted, it'll return 12-hour clock values. 
 
-####ios.utils.timeFormatter(timeObj, clock24)
+####m.utils.timeFormatter(timeObj, clock24)
 This will create a time string for screen display. It'll return a hours-minutes string based on the clock24 object. 
 
-#### ios.utils.color(colorString)
-This changes the color words to be set to iOS default colors in place of web color defaults. If it's a hexcode, it'll set the hexcode. If invalid, it'll return a grey hexcode.
+#### m.utils.color(colorString)
+This changes the color words to be set to m default colors in place of web color defaults. If it's a hexcode, it'll set the hexcode. If invalid, it'll return a grey hexcode.
 
 Supports - `red, blue, pink, grey/gray, black, white, orange, green, light blue/light-blue, yellow`
 
 <pre>
-ios.utils.color("light-blue) # returns "#54C7FC"
+m.utils.color("light-blue) # returns "#54C7FC"
 </pre>
 
-#### ios.utils.autoColor(colorObject)
+#### m.utils.autoColor(colorObject)
 This will decide whether to return black or white based on the contrast of the color passed through the color object. So an easy example would be: if you pass white it'll return black. If you pass black, it'll return white. It'll work with any color.
 
 <pre>
-ios.utils.autoColor(ios.utils.color("yellow")) # returns "#000"
-ios.utils.autoColor(ios.utils.color("blue")) # returns "#FFF"
+m.utils.autoColor(m.utils.color("yellow")) # returns "#000"
+m.utils.autoColor(m.utils.color("blue")) # returns "#FFF"
 </pre>
 
-#### ios.utils.bgBlur(layer)
+#### m.utils.bgBlur(layer)
 Add background blur to any layer using -webkit-backdrop-filter. Make sure that whatever layer you use is using rgba with an alpha set below 1.
 
 <div id="contribute" />
@@ -611,8 +604,8 @@ Contributions are welcome! If you'd like to add any new components/any new logic
 If you'd like to add a component, please start a new coffee file, unless it's a directly related to another component similar to Tab & TabBar. Please use this boilerplate to help make the components consistent. 
 
 <pre> 
-## Allows you to use all the ios kit components & logic
-ios = require 'ios-kit'
+## Allows you to use all the Material Kit components & logic
+m = require 'material-kit'
 
 exports.defaults = {
 	## Add any thing a user can set in here. For example:
@@ -625,17 +618,17 @@ exports.defaults.props = Object.keys(exports.defaults)
 	
 exports.create = (array) ->
 	## Creates a setup object that has defaults + any custom props.
-	setup = ios.utils.setupComponent(array, exports.defaults)
+	setup = m.utils.setupComponent(array, exports.defaults)
 	
 	print setup.backgroundColor ## prints blue</pre>
 	
 
 	
 #### For logic
-Please add any layout logic to the layout file. Otherwise, please add the logic to `ios-kit-utils.coffee`. 
+Please add any layout logic to the layout file. Otherwise, please add the logic to `material-kit-utils.coffee`. 
 	
 #### For data
-Please add any referencable data object to `ios-kit-library.coffee`. You can either reference it with `ios.library["object"]` or with `ios.assets["object"]`. Whatever works best for you.
+Please add any referencable data object to `material-kit-library.coffee`. You can either reference it with `m.library["object"]` or with `m.assets["object"]`. Whatever works best for you.
 	
 #### For help
 Feel free to hit me up on [Twitter](https://twitter.com/kvyn_).
