@@ -75,14 +75,14 @@ You can write any variable name you'd like, but for the purposes of this guide w
 The most fundamental piece of this module is Dynamic Layout. Dynamic Layout is a robust layout engine that’ll not only help make positioning layers easier and smarter, it'll will make positioning layers across devices possible. 
 
 <div id='point' />
-#### The Point 
-In Dynamic Layout, like in Android, everything is based around the point instead of the pixel. The exact number of pixels will change from device to device, but the number of points will not. There's a simple equation for finding points. 
+#### The Density-independent pixel (DP) 
+In Dynamic Layout, like in Android, everything is based around the dp instead of the pixel. The exact number of pixels will change from device to device, but the number of points will not. There's a simple equation for finding points. 
 
-`1pt = 1px * scale`
+`1dp = 1px * scale`
 
 Side note: you can also use the built-in functions. 
-`m.pt(6) #returns 3 points on iPhone 6 and 2 points on iPhone 6 plus` 
-`m.px(1) #returns 2 pixels on iPhone 6 and 3 pixels on iPhone 6 plus`
+`m.dp(6) #returns 3 points on HTC One and 2 points on Nexus 4` 
+`m.px(1) #returns 4 pixels on Nexus 6p and 3 pixels on iPhone 6 plus`
 
 #### Positioning
 
@@ -100,7 +100,7 @@ layer.constraints =
 m.layout.set()
 </pre>
 
-This will position the layer at x:20, y:20 on iPhone 6, and x:30, y:30 on iPhone 6 plus.
+This will position the layer at x:30, y:30 on Samsung S5, and x:40, y:40 on Samsung S7
 
 Side note: you can also do this on one line if you'd prefer using this syntax. Just replace the layer.constraints line from above with this line. You'll still need to run the m.layout.set function.
 
@@ -252,31 +252,63 @@ For this to work properly, you'll need a full-screen browser. I use & recommend 
 ### Device details library
 You’ll now be able to refer to a set of new variables that’ll allow you to get more details on the device.
 
-<pre><b>m.scale</b> # returns 1,2,3
-<b>m.height</b> # returns the height of the device in pixels
-<b>m.width</b> # returns the width of the device in pixels
-<b>m.device</b> # returns one of the device names below 
-	<b>ipad</b> # for any iPad other than the pro
-	<b>ipad-pro</b> # for the iPad Pro
-	<b>iphone-5</b> # for iPhone 5, iPhone 5s, iPhone 5c, and iPhone SE
-	<b>iphone-6s</b> # for iPhone 6 & 6s
-	<b>iphone-6s-plus</b> # for iPhone 6 plus & 6s plus
+<pre><b>m.device.scale</b> # returns 1,2,3
+<b>m.device.height</b> # returns the height of the device in pixels
+<b>m.device.width</b> # returns the width of the device in pixels
+<b>m.device.name</b> # returns many different options
 </pre>
 
 
 <div id='system' />
 ## System components
-These are easy to implement & fully customizable native iOS components. The idea is that implementing native iOS components should be easy & quick, so that you can spend the time working on what makes your prototype unique. 
+These are easy to implement & fully customizable native iOS components. The idea is that implementing Material components should be easy & quick, so that you can spend the time working on what makes your prototype unique. 
 
 Every component in this module was written to feel native to Framer, so the way you create components should feel as familar as creating a new layer. The difference is that in addition to Framer properties there's added customization parameters, which will be accepted, and any component that can accept constraints from Dynamic Layout is able to. 
 
 After creation, components will operate as native layers under the variable name you declared. The only difference is the sublayers of the component are accessible via dot notation, so it's easier for you to turn on event listeners etc. 
 
+## Material Colors
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/colors.png)
+
+One of the core parts of material design is color. To make it convenient, there's a color function that has all of [material design's color palette](https://www.google.com/design/spec/style/color.html#color-color-palette) included. Also, all the objects below will by default use them, so when you pass a backgroundColor or color property feel free to use the following codes.
+
+Color codes in material design are setup as name + code like blue400 or red100. The color name is lower camel-case like "deepPurple" and any code that includes an "A" is uppercase. 
+
+#### Example
+<pre>
+# Non-material design layers
+layer = new Layer
+	color:m.color("lime700") ## sets color to #AFB42B
+
+# Material design layers
+text = new m.Text
+	color:"yellowA400" ## sets color to #FFEA00
+</pre>
+
+
 ## Material Icons
 ![](https://dl.dropboxusercontent.com/u/143270556/material-kit/icons.png)
 
-## Material Colors
-![](https://dl.dropboxusercontent.com/u/143270556/material-kit/colors.png)
+You can easly access all the icons in the [Material Design library](https://design.google.com/icons/) with a simple & easy object.  
+
+#### Properties
+- **name** *String* <br> String that grabs the icon from the [library](https://design.google.com/icons/)
+- **scale** *Int* <br> Scales the icon's height & width.
+- **color** *Color String* <br> Sets the color of the icon.
+- **superLayer** *String* <br> Same as Framer's superLayer property.
+- **constraints** *Constraints Object* <br> Sets the icon's constraints.
+- **clip** *Boolean* <br> Same as Framer's clip property.
+
+**Please note:** Whenever an icon has more than one words, use an _ between the words. So flight land would be `"flight_land"`
+
+
+#### Example
+<pre>
+icon = new m.Icon
+	name:"exit_to_app"
+	color:"white"
+</pre>
+
 
 <div id='status' />
 ## Status Bar 
@@ -286,7 +318,7 @@ After creation, components will operate as native layers under the variable name
 The status bar allows users to see the connection, current time, and battery. 
 
 ####Properties
-- **carrier** *String* <br> Carrier name ex. Verizon/Orange/FramerJS
+- **carrier** *String* <br> Carrier name ex. Verizon/Orange/FramerJS.
 - **network** *String* <br> network strength ex. 3G/LTE. Only will be showed when a carrier is set. By default, this is set to the wifi icon. Upon setting carrier, this will be set to LTE. 
 - **battery** *Integer* <br> Battery percentage - this will change the battery icon
 - **signal** *Integer(0 - 5)* <br> Changes number of filled/unfilled dots. Zero will set the singal to "No Network"
@@ -527,10 +559,10 @@ This was specifically intended for text objects. If the html or style of a text 
 m.update(headerOne, [text:"Done!"]
 </pre>
 
-#### m.utils.pt(int) & m.utils.px(int)
+#### m.utils.dp(int) & m.utils.px(int)
 These functions will automatically convert pixels -> points and points -> pixels.
 <pre>
-m.pt(6) # will return 3 points on an iPhone 6
+m.dp(6) # will return 3 points on an iPhone 6
 m.px(6) # will return 12 pixels on an iPhone 6
 </pre>
 
