@@ -277,19 +277,133 @@ These are easy to implement & fully customizable native iOS components. The idea
 Every component in this module was written to feel native to Framer, so the way you create components should feel as familar as creating a new layer. The difference is that in addition to Framer properties there's added customization parameters, which will be accepted, and any component that can accept constraints from Dynamic Layout is able to. 
 
 After creation, components will operate as native layers under the variable name you declared. The only difference is the sublayers of the component are accessible via dot notation, so it's easier for you to turn on event listeners etc. 
-<div id='shortcuts' />
-##### Action string shortcuts
-To provide even more customization, any string in an action context can have these prepended shortcuts. 
 
-`-b` - bold string<br>
-`-g` - make string green<br>
-`-r` - make string red<br>
-`-rb` - make string blue <br>
-`-lb` - make string light blue<br>
-`-o` - make string orange<br>
-`-p` - make string pink<br>
-`-y` - make string yellow<br>
-`-#000000` - change color to any 6 digit hex code. <br><br>
+## Material Icons
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/icons.png)
+
+## Material Colors
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/colors.png)
+
+
+
+<div id='status' />
+## Status Bar 
+
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/statusbar.png)
+
+The status bar allows users to see the connection, current time, and battery. 
+
+####Properties
+- **carrier** *String* <br> Carrier name ex. Verizon/Orange/FramerJS
+- **network** *String* <br> network strength ex. 3G/LTE. Only will be showed when a carrier is set. By default, this is set to the wifi icon. Upon setting carrier, this will be set to LTE. 
+- **battery** *Integer* <br> Battery percentage - this will change the battery icon
+- **signal** *Integer(0 - 5)* <br> Changes number of filled/unfilled dots. Zero will set the singal to "No Network"
+- **style** *String* <br> Dark is black text. Light is white text.  
+- **clock24** *Boolean* <br> By default, it's set to false, so it's a 12 hour clock with AM/PM. When set to true, the clock will cycle through 0-23 hours and removes AM/PM. 
+
+#### Example
+<pre>
+statusBar = new ios.StatusBar
+	carrier:"Verizon"
+	network:"3G"
+	battery:70
+	style:"light"
+</pre>
+
+####Schema
+<pre>
+statusBar : {
+    statusBar.battery.percent
+    statusBar.battery.icon
+    statusBar.bluetooth
+    statusBar.time
+    statusBar.network
+    statusBar.carrier
+    statusBar.signal
+}
+</pre>
+
+
+<div id="app" />
+## App Bar
+
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/appbar.png)
+
+The navigation bar is made up of 3 elements, two actions and a title. 
+
+####Properties
+- **right** *Layer or String or Bool* <br> A layer or string will appear on the right side of the navigation bar. If you do not want a right action, set this to `false`.
+- **left** *Layer or String* <br> A layer or string will appear on the left side of the navigation bar. You can add a < to show a back arrow. 
+- **title** *String or Tab* <br> You can either pass a string that'll appear as the title on the Nav. You can also pass a tab object. If you pass a tab, the navigation bar's title will be the label of the tab. 
+- **blur** *Boolean* <br> If set to true, the bar will be slightly opaque and have a background blur applied. By default, this is set to true. If false, the bar will be solid white without a blur. 
+
+#### Example
+<pre>
+nav = new ios.NavBar 
+	right:"Share"
+	left:"< Back"
+	title:"Document"
+	blur:false
+</pre>
+
+####Schema
+<pre>
+bar: {
+	bar.right
+	bar.left
+	bar.title
+}
+</pre>
+#### Listening to actions
+To listen to different actions, you can use dot notation if it's a single word or brackets for any case
+
+- Dot notation <br> `bar.right`
+- Square bracket notation <br> `bar["right"]`
+
+
+
+## Banner 
+
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/banner.png)
+
+The banner is a non-blocking notification. Typically, the banner will send you to a specific screen in an app.
+
+####Properties
+- **title** *String* <br> Embolded top text
+-  **message** *String* <br> Body text
+- **time** *String* <br> time string that appears next to title. 
+- **icon** *Layer* <br> This will put the layer inside the banner and size it accordingly. By default, it's a green box. 
+- **duration** *Integer* <br> This will override the time before the banner animates-out. By default, this is set to 7. 
+- **animated** *Boolean* <br> When set to `true` sheet will animate-in.
+
+**NOTE - ** The banner will be, by default, draggable. If you drag down, it'll reset, and if you drag up it'll dismiss & destroy the banner. 
+
+#### Example
+<pre>
+banner = new ios.Banner 
+	title:"Time to do something"
+	message:"Don't miss out"
+	icon:iconLayer
+	animated:true
+</pre>
+
+#### Schema
+<pre>
+banner : {
+	banner.icon
+	banner.title
+	banner.message
+}
+</pre>
+#### Listening to actions
+To make the banner clickable, you can write - 
+<pre>
+banner.on Events... 
+</pre>
+
+##Video
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/video.png)
+
 
 ## Dialog
  
@@ -327,48 +441,45 @@ To listen to different actions, you can use dot notation if it's a single word o
 - Dot notation <br> `alert.actions.OK.on Events...`
 - Square bracket notation <br> `alert.actions["OK"].on Events...`
 
-## Banner 
 
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/banner.png)
+## Text 
 
-The banner is a non-blocking notification. Typically, the banner will send you to a specific screen in an app.
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/text.png)
+
+A dynamic text object that'll automatically size for you. 
 
 ####Properties
-- **title** *String* <br> Embolded top text
--  **message** *String* <br> Body text
-- **time** *String* <br> time string that appears next to title. 
-- **icon** *Layer* <br> This will put the layer inside the banner and size it accordingly. By default, it's a green box. 
-- **duration** *Integer* <br> This will override the time before the banner animates-out. By default, this is set to 7. 
-- **animated** *Boolean* <br> When set to `true` sheet will animate-in.
+- **text** *String* <br> Adds text by default to the field.
+- **fontSize** *Integer* <br>Sets font size in points.
+- **fontWeight** *Integer* <br> Sets font weight.
+- **fontFamily** *String* <br> Sets font family.
+- **lineHeight** *Integer* <br> Sets line height in points. It's automatically done if left unset.
+- **textTransform** *String* <br> Sets text-transform style property.
+- **opacity** *Integer* <br> Sets opacity.
+- **width** *Integer* <br> Sets width in points. 
+- **height** *Integer* <br> Sets height in points.
+- **constraints** *Constraints Object* <br> Will set the text's constraints and run layout using [Dynamic Layout](#dynamic)
 
-**NOTE - ** The banner will be, by default, draggable. If you drag down, it'll reset, and if you drag up it'll dismiss & destroy the banner. 
-
-#### Example
+####Example
 <pre>
-banner = new ios.Banner 
-	title:"Time to do something"
-	message:"Don't miss out"
-	icon:iconLayer
-	animated:true
+	text = new ios.Text
+		text:"Try iOS Kit for Framer JS"
+		fontSize:21
+		fontWeight:100
+		width:320
+		constraints:{align:"center"}
 </pre>
 
-#### Schema
-<pre>
-banner : {
-	banner.icon
-	banner.title
-	banner.message
-}
-</pre>
-#### Listening to actions
-To make the banner clickable, you can write - 
-<pre>
-banner.on Events... 
-</pre>
 
 ## Button 
+### Floating
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/fab.png)
 
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/button.png)
+### Raised
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/raised.png)
+
+### Flat
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/flat.png)
 
 Button is a small versatile component that handles press states automatically.
 
@@ -402,287 +513,16 @@ button: {
 Listening to buttons is no different than normal framer.<br>
 `button.on Events...`
 
-## Field 
+## Ink
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/ink.png)
 
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/field.png)
+## Snackbar
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/snackbar.png)
 
-The field is a versatile input for the keyboard. Please note, this is not a HTML field.
-
-####Properties
-- **text** *String* <br> Adds text by default to the field.
-- **placeholderText** *String* <br> Sets the placeholder text.
-- **placeholderColor** *Color String* <br> Sets the placeholder text color.
-- **borderRadius** *Integer* <br>Sets border radius of field.
-- **borderWidth** *Integer* <br> Sets border width.
-- **borderColor** *Color String* <br> Sets border color.
-- **color** *Color String* <br> Sets text color.
-- **backgroundColor** *Color String* <br> Sets field background color.
-- **width** *Integer* <br> Sets width in points.
-- **height** *Integer* <br> Sets height in points.
-- **constraints** *Constraints Object* <br> Will set the field's constraints and run layout using [Dynamic Layout](#dynamic)
-- **textConstraints** *Constraints Object* <br> Will set the text's constraints and run layout using [Dynamic Layout](#dynamic)
-
-####Example
-<pre>
-	field = new ios.Field
-		placeholderText:"Enter a name or email address"
-		constraints:{align:"center"}
-</pre>
-
-####Schema
-<pre>
-field: {
-	field.placeholder
-	field.text
-	# after touchEnd event
-	field.keyboard { 
-		... Keyboard Schema
-	}
-}
-</pre>
-
-####Listening to keys inside of a field
-In order to listen for the return key or any other key, you'll need to wrap it up in a touch event since the keyboard only exists after the field is being touched. 
-
-<pre>
-field.on Events.TouchEnd, ->
-	field.keyboard.keys.return.on Events...
-</pre>
-
-## Keyboard 
-
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/keyboard.png)
-
-The keyboard is a fully rendered component that mimics the native iOS keyboard. It'll adapt to all devices. (Not currently supported on iPad Pro)
-
-####Properties
-- **returnText** *String* <br> Overrides the text on the return button.
-- **returnColor** *Hexcode String* <br> Will set the return button color
-- **animated** *Boolean* <br> Will determine if the keyboard is animated in. By default, this is set to false. 
-
-
-
-#### Example
-<pre>
-board = new ios.Keyboard
-	returnText = "Done"
-</pre>
-
-<div id="keyboard-schema" />
-####Schema
-<pre>
-board: {
-	board.keysArray #contains all keys A-Z in array object
-	board.keys {
-		board.keys.a - board.keys.z
-		board.keys.shift
-		boards.keys.return
-		boards.keys.num
-		boards.keys.space
-		boards.keys.emoji
-		
-		# if on iPad
-		boards.keys.shift2
-		boards.keys.num2
-		boards.keys.dismiss
-	} 
-}
-</pre>
-#### Listening to Keys
-You can listen to keys using dot notation or square bracket notation.
-
-- Dot notation <br> `board.keys.return.on Events...`
-- Square bracket notation <br> `board.keys["return"].on Events...`
-
-##Sheet 
-
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/menu.png)
-
-The sheet is quick action list. The sheet component is super simple to create.
-
-####Properties
-- **actions** *Array of strings* <br> Series of actions that can be taken on the sheet.
-- **animated** *Boolean* <br> When set to `true` sheet will animate-in.
-- **description** *String* <br> When declared, a small grey text will appear at the top of the sheet. By default, this will not appear. 
-- **cancel** *String* <br> This will override the label on the dismiss button. 
-
-**NOTE - ** The cancel button will always animate-out. You don't have to add any additional code to handle/animate that. 
-
-#### Example
-<pre>
-sheet = new ios.sheet 
-	actions:[“-r Delete, Edit, Share”]
-	animated:true
-	description:"Do something"
-</pre>
-
-####Schema
-<pre>
-sheet : {
-	sheet.cancel 
-	sheet.overlay
-	sheet.description
-	sheet.actions : {"-r Delete", Edit, Share}
-}
-</pre>
-#### Listening to actions
-To listen to different actions, you can use dot notation if it's a single word or brackets for any case
-
-- Dot notation <br> `sheet.actions.Share.on Events...`
-- Square bracket notation <br> `sheet.actions["-r Delete"].on Events...`
-
-<div id='status' />
-## Status Bar 
-
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/statusbar.png)
-
-The status bar allows users to see the connection, current time, and battery. 
-
-####Properties
-- **carrier** *String* <br> Carrier name ex. Verizon/Orange/FramerJS
-- **network** *String* <br> network strength ex. 3G/LTE. Only will be showed when a carrier is set. By default, this is set to the wifi icon. Upon setting carrier, this will be set to LTE. 
-- **battery** *Integer* <br> Battery percentage - this will change the battery icon
-- **signal** *Integer(0 - 5)* <br> Changes number of filled/unfilled dots. Zero will set the singal to "No Network"
-- **style** *String* <br> Dark is black text. Light is white text.  
-- **clock24** *Boolean* <br> By default, it's set to false, so it's a 12 hour clock with AM/PM. When set to true, the clock will cycle through 0-23 hours and removes AM/PM. 
-
-#### Example
-<pre>
-statusBar = new ios.StatusBar
-	carrier:"Verizon"
-	network:"3G"
-	battery:70
-	style:"light"
-</pre>
-
-####Schema
-<pre>
-statusBar : {
-    statusBar.battery.percent
-    statusBar.battery.icon
-    statusBar.bluetooth
-    statusBar.time
-    statusBar.network
-    statusBar.carrier
-    statusBar.signal
-}
-</pre>
-
-<div id="nav" />
 ## Navigation Bar
-
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/navbar.png)
-
-The navigation bar is made up of 3 elements, two actions and a title. 
-
-####Properties
-- **right** *Layer or String or Bool* <br> A layer or string will appear on the right side of the navigation bar. If you do not want a right action, set this to `false`.
-- **left** *Layer or String* <br> A layer or string will appear on the left side of the navigation bar. You can add a < to show a back arrow. 
-- **title** *String or Tab* <br> You can either pass a string that'll appear as the title on the Nav. You can also pass a tab object. If you pass a tab, the navigation bar's title will be the label of the tab. 
-- **blur** *Boolean* <br> If set to true, the bar will be slightly opaque and have a background blur applied. By default, this is set to true. If false, the bar will be solid white without a blur. 
-
-#### Example
-<pre>
-nav = new ios.NavBar 
-	right:"Share"
-	left:"< Back"
-	title:"Document"
-	blur:false
-</pre>
-
-####Schema
-<pre>
-bar: {
-	bar.right
-	bar.left
-	bar.title
-}
-</pre>
-#### Listening to actions
-To listen to different actions, you can use dot notation if it's a single word or brackets for any case
-
-- Dot notation <br> `bar.right`
-- Square bracket notation <br> `bar["right"]`
-
-## Tab
-
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/tabs.png)
-
-Tabs are light-weight objects that fit into the tab bar component. 
-
-####Properties
-- **label** *String* <br> name of tab
-- **icon** *SVG String* <br> only accepts an SVG string  
-
-#### Example
-<pre>
-home = new ios.Tab
-	label:"home"
-	icon:"< svg>...< /svg>"
-</pre>
-
-####Schema
-<pre>
-home: {
-	home.label
-	home.icon
-	home.view
-}
-</pre> 
-####Adding contents to a tab
-Creating a tab will give you access to **tab.view**. In this case, you'll have `home.view`. When the home tab is active only those layers inside of `home.view` will be shown. 
-
-`discovery = new Layer superLayer:home.view` 
-
-The discovery layer will only be shown when the home tab is active in the tab bar. 
-<div id='tabbar' />
-## Tab Bar
-
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/tabs.png)
-
-The tab bar is comprised of multiple tabs. It'll handle switching of tabs and views.
-
-####Properties
-- **tabs** *Array of tabs* <br> Add the tabs you made to this array
-- **activeColor** *String* <br> This is the color that will be shown on the active tabs and label.
-- **inactiveColor** *String* <br> the color that will be shown on inactive tabs and labels.
+![](https://dl.dropboxusercontent.com/u/143270556/material-kit/nav.png)
 
 
-#### Example
-<pre>
-tabBar = new ios.TabBar tabs:[home, discovery, profile], activeColor:"#blue", inactiveColor:"grey"
-</pre>
-
-#### Listening to Tabs
-Tab switching is automatically given, so there shouldn't necessarily be anything you need to do. If you'd like to do something additional when a user clicks a tab, you can reference your tab object. 
-
-## Text 
-
-![](https://dl.dropboxusercontent.com/u/143270556/ioskit/text.png)
-
-A dynamic text object that'll automatically size for you. 
-
-####Properties
-- **text** *String* <br> Adds text by default to the field.
-- **fontSize** *Integer* <br>Sets font size in points.
-- **fontWeight** *Integer* <br> Sets font weight.
-- **fontFamily** *String* <br> Sets font family.
-- **lineHeight** *Integer* <br> Sets line height in points. It's automatically done if left unset.
-- **textTransform** *String* <br> Sets text-transform style property.
-- **opacity** *Integer* <br> Sets opacity.
-- **width** *Integer* <br> Sets width in points. 
-- **height** *Integer* <br> Sets height in points.
-- **constraints** *Constraints Object* <br> Will set the text's constraints and run layout using [Dynamic Layout](#dynamic)
-
-####Example
-<pre>
-	text = new ios.Text
-		text:"Try iOS Kit for Framer JS"
-		fontSize:21
-		fontWeight:100
-		width:320
-		constraints:{align:"center"}
-</pre>
 
 <div id="supporting" />
 ## Supporting Functions
