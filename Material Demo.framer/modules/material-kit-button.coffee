@@ -29,6 +29,7 @@ exports.create = (array) ->
 	if setup.superLayer
 		setup.superLayer.addSubLayer(button)
 
+	button.type = setup.type
 	switch setup.type
 		when "floating"
 			button.constraints =
@@ -55,6 +56,7 @@ exports.create = (array) ->
 				target:[button]
 			m.layout.set
 				target:[icon]
+
 		else
 			label = new m.Text
 				text:setup.text
@@ -108,7 +110,8 @@ exports.create = (array) ->
 								backgroundColor: button.origBGC
 
 
-			button.constraints = setup.constraints
+			if setup.constraints
+				button.constraints = setup.constraints
 
 			m.layout.set
 				target:[button, label]
@@ -118,8 +121,5 @@ exports.create = (array) ->
 		passedInk.layer = button
 
 		m.utils.inky(passedInk)
-
-
-
 
 	return button

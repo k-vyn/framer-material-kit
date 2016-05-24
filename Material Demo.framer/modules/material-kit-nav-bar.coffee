@@ -11,6 +11,8 @@ exports.create = (array) ->
 	navbar = new Layer
 		backgroundColor:"black"
 
+	navbar.type = "navbar"
+
 	navbar.constraints =
 		bottom:0
 		leading:0
@@ -129,5 +131,8 @@ exports.create = (array) ->
 	navbar.home.icon = homeIcon
 	navbar.recent = recentButton
 	navbar.recent.icon = recentIcon
+
+	Utils.interval .5, ->
+		navbar.bringToFront()
 
 	return navbar

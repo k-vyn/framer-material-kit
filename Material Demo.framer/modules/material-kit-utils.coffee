@@ -18,6 +18,8 @@ exports.color = (colorString) ->
 		return colorString
 	else
 		color =  new Color(m.lib.colors[colorString])
+		if colorString == "transparent"
+			color = "transparent"
 		return color
 
 # Supporting Functions
@@ -309,6 +311,7 @@ exports.inky = (setup) ->
 	startY = setup.layer.height/2
 
 	inkColor = "#0A0A0A"
+	inkStartScale = .1
 	inkScale = 3
 	inkCurve = "bezier-curve(.2, 0.4, 0.4, 1.0)"
 	inkOpacity = 1
@@ -322,6 +325,9 @@ exports.inky = (setup) ->
 
 	if setup.scale != undefined
 		inkScale = setup.scale
+
+	if setup.startScale != undefined
+		inkStartScale = setup.startScale
 
 	if setup.curve != undefined
 		inkCurve = setup.curve
@@ -346,7 +352,7 @@ exports.inky = (setup) ->
 			borderRadius:m.utils.px(50)
 			opacity: inkOpacity
 
-		circle.scale = .1
+		circle.scale = inkStartScale
 		circle.animate
 			properties:(scale:inkScale, opacity:0)
 			curve:inkCurve

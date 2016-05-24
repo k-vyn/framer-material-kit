@@ -14,7 +14,7 @@ exports.defaults = {
   loop:false
   idleLimit:3
   showPlayStop:true
-
+  image:undefined
 }
 
 exports.defaults.props = Object.keys(exports.defaults)
@@ -33,6 +33,9 @@ exports.create = (array) ->
     width:setup.width
     backgroundColor:setup.backgroundColor
     name:"video"
+
+  if setup.image
+    videoLayer.image = setup.image
 
   videoLayer.player.autoplay = setup.autoplay
   videoLayer.player.muted = setup.mute
@@ -201,6 +204,9 @@ exports.create = (array) ->
         videoLayer.cacheProps = videoLayer.props
         videoLayer.cacheAlign = videoLayer.constraints.align
 
+        if videoLayer.onFullScreen
+          videoLayer.onFullScreen()
+
         idleTime = 0
         videoLayer.backdrop = new Layer
           backgroundColor:"black"
@@ -223,6 +229,13 @@ exports.create = (array) ->
           videoLayer.backdrop.placeBehind(videoLayer)
         m.addToStack(videoLayer)
 
+    videoLayer.fullscreenExit.on Events.TouchEnd, ->
+        videoLayer.fullscreen.visible = true
+        videoLayer.fullscreenExit.visible = false
+        idleTime = 0
+        m.removeFromStack()
+
+
 
     videoLayer.exit = () ->
         videoLayer.animate
@@ -238,13 +251,11 @@ exports.create = (array) ->
         Utils.delay .7, ->
           videoLayer.backdrop.destroy()
 
-
-    videoLayer.fullscreenExit.on Events.TouchEnd, ->
         videoLayer.fullscreen.visible = true
         videoLayer.fullscreenExit.visible = false
-        idleTime = 0
-        m.removeFromStack()
 
+        if videoLayer.onFullScreenExit
+          videoLayer.onFullScreenExit()
 
     #Seeker Controls
     videoLayer.seeker.draggable.enabled = true

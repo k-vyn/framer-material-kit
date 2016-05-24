@@ -18,8 +18,10 @@ bar = new m.AppBar
 	tabsBarColor:"white"
 	tabsColor:"white"
 	tabsAlt:{color:"black", opacity:.7}
-
+	actions:["more_vert", "search"]
+	
 cards = []
+allCards = []
 loadTable = (table, superLayer) ->
 	card = () ->
 		if cards[cards.length - 1]
@@ -34,6 +36,7 @@ loadTable = (table, superLayer) ->
 			opacity: 0
 		layer.table = table
 		cards.push layer
+		allCards.push layer
 		layer.data = data[table][cards.indexOf(layer)]
 		layer.constraints = {height:300}
 		thumbnail = new Layer superLayer: layer, image:layer.data.thumbnail
@@ -63,33 +66,53 @@ loadTable = (table, superLayer) ->
 			layer.animate
 				properties:(opacity:1)
 				time:.5	
+				
+		superLayer.updateContent()
+		
 		layer.on Events.Click, ->
+			for c in allCards
+				c.ignoreEvents = true
+			bar.visible = false
+			
 			view = new Layer backgroundColor:"white"
 			view.constraints = {top:0, bottom:nav, leading:0, trailing:0}
 			m.layout.set()
+
 			video = new m.Video 
 				max:true
 				video:layer.data.video
 				progressColor:"red600"
 				showPlayStop: false
-				mute:true
 				superLayer:view
 				backgroundColor:"black"
+				image: layer.data.thumbnail
+				
 			m.addToStack(view)
+			
+			details = new Layer backgroundColor:"white", superLayer:view
+			details.constraints = {top:video, leading:0, trailing:0, bottom:0}
+			hideDetails = ->
+				details.visible = false
+			showDetails = ->
+				Utils.delay .5, -> details.visible = true
+				
+			video.onFullScreen = hideDetails
+			video.onFullScreenExit = showDetails
+
 			videoTitle = new m.Text
-				constraints:{top:[video, 20], leading:17}
+				constraints:{top:20, leading:17}
 				text:layer.data.title
 				fontSize:18
-				superLayer:view
+				superLayer:details
 			videoViewCount = new m.Text
 				constraints:{top:[videoTitle, 20], leading:17}
 				text:layer.data.views + " views"
 				fontSize:14
-				color:"grey400"
-				superLayer:view
+				color:"grey"
+				superLayer:details
 			thumbsUpIcon = new m.Icon
 				name:"thumb_up"
-				superLayer:view
+				superLayer:details
 				color:"grey700"
 				constraints: {top:[videoViewCount, 20], leading:17}
 			thumbsUpCount = new m.Text
@@ -97,10 +120,10 @@ loadTable = (table, superLayer) ->
 				text:layer.data.thumbs_up
 				constraints:{verticalCenter:thumbsUpIcon, leading:[thumbsUpIcon, 10]}
 				fontSize:14
-				superLayer:view
+				superLayer:details
 			thumbsDownIcon = new m.Icon
 				name:"thumb_down"
-				superLayer:view
+				superLayer:details
 				color:"grey700"
 				constraints: {verticalCenter:thumbsUpIcon, leading:[thumbsUpCount, 20]}
 			thumbsDownCount = new m.Text
@@ -108,30 +131,37 @@ loadTable = (table, superLayer) ->
 				text:layer.data.thumbs_down
 				constraints:{verticalCenter:thumbsDownIcon, leading:[thumbsDownIcon, 10]}
 				fontSize:14
-				superLayer:view
+				superLayer:details
 			shareIcon = new m.Icon
 				name:"reply"
-				superLayer:view
+				superLayer:details
 				color:"grey700"
 				constraints: {verticalCenter:thumbsUpIcon, leading:[thumbsDownCount, 20]}
-			topDivider = new Layer
-				superLayer:view
-			topDivider.constraints =
-				top:[thumbsUpIcon, 20]
-				leading:0
-				trailing:0
-				height:1
-			bottomDivider = new Layer
-				superLayer:view
-			bottomDivider.constraints =
-				top:[topDivider, 100]
-				leading:0
-				trailing:0
-				height:1
-			profileIcon = new Layer
-				superLayer:view
-			m.layout.set()			
+				
+			topDivider = new Layer superLayer:details, backgroundColor:m.color("grey200")
+			topDivider.constraints = {top:[thumbsUpIcon, 20], leading:0, trailing:0, height:1}
+			bottomDivider = new Layer superLayer:details, backgroundColor:m.color("grey200")
+			bottomDivider.constraints = {top:[topDivider, 70], leading:0, trailing:0, height:1}
 			
+			m.layout.set()			
+			profileIcon = new Layer 
+				superLayer:details
+				image:layer.data.profile_pic
+				borderRadius:m.px(50)
+			profileIcon.constraints = {top:[topDivider, 15], leading:17, height:40, width:40}
+			
+			m.layout.set()		
+			
+			authorTitle = new m.Text
+				constraints:{topEdges:profileIcon, leading:[profileIcon, 10]}
+				text:layer.data.author	
+				superLayer:details
+			subs = new m.Text
+				constraints:{top:[authorTitle, 5], leading:[profileIcon, 10]}
+				text:layer.data.subs + " subscribers"
+				superLayer:details
+				fontSize:14
+				color:"grey"
 		return layer
 	
 	button = new m.Button 
@@ -143,7 +173,7 @@ loadTable = (table, superLayer) ->
 		backgroundColor:"red600"
 		clip:true
 	
-	for i in [0...3]
+	for i in [0...5]
 		post = new card
 		if cards.indexOf(post) == 0
 			post.constraints.top = 0
@@ -154,18 +184,36 @@ loadTable = (table, superLayer) ->
 			
 		m.layout.set(post)
 	m.layout.set()
+	
+	home.updateContent()
+
+nav.back.on Events.TouchEnd, ->
+	for c in allCards
+		c.ignoreEvents = false
+	bar.visible = true
 
 # Make Tables
 home = new ScrollComponent 
 	superLayer:bar.views["YouTube Red"]
+home.contentInset = {top: 0, right: 0, bottom: m.px(150), left: 0}
 home.constraints = {top:0, leading:0, trailing:0, bottom:nav}
 home.scrollHorizontal = false
+m.layout.set()
 
-trending = new ScrollComponent 
-	superLayer:bar.views["trending"]
-trending.constraints = {top:0, leading:0, trailing:0, bottom:nav}
-trending.scrollHorizontal = false
+
+bar.tabs["trending"].on Events.TouchEnd, ->
+	snack = new m.SnackBar
+		animated:true
+		text:"Trending not included"
+		
+bar.tabs["subscriptions"].on Events.TouchEnd, ->
+	snack = new m.SnackBar
+		animated:true
+		text:"Subscriptions not included"
+
+bar.tabs["account"].on Events.TouchEnd, ->
+	snack = new m.SnackBar
+		animated:true
+		text:"Account not included"
 
 loadTable("home", home)
-loadTable("trending", trending)
-nav.bringToFront()

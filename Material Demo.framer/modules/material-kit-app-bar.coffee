@@ -6,7 +6,7 @@ exports.defaults = {
 	right:"Edit"
 	blur:true
 	superLayer:undefined
-	type:"navBar"
+	type:"appbar"
 	backgroundColor:"white"
 	tabs:undefined
 	titleColor:"black"
@@ -17,6 +17,7 @@ exports.defaults = {
 	tabsBarColor:"yellow"
 	tabsAlt:{color:undefined, opacity:.7}
 	tabIcons:undefined
+	actions:undefined
 }
 
 exports.defaults.props = Object.keys(exports.defaults)
@@ -39,7 +40,7 @@ exports.create = (array) ->
 	if setup.tabs
 		bar.constraints.height = 128
 
-	barArea = new Layer superLayer:bar, backgroundColor:"transparent"
+	barArea = new Layer superLayer:bar, backgroundColor:"transparent", name:"barArea"
 	barArea.constraints =
 		leading:0
 		trailing:0
@@ -84,8 +85,39 @@ exports.create = (array) ->
 	if setup.leftAction
 		title.constraints.leading = 73
 
+
 	m.layout.set
 		target:[title]
+
+	actionsArray = []
+	if setup.actions
+		for act, i in setup.actions
+			if i == 0
+				icon = new m.Icon
+					name:act
+					superLayer:barArea
+					constraints:{trailing:24, verticalCenter:title}
+					color:setup.titleColor
+					clip:false
+				actionsArray.push icon
+			else
+				icon = new m.Icon
+					name:act
+					superLayer:barArea
+					constraints:{trailing:[actionsArray[i - 1], 24], verticalCenter:title}
+					color:setup.titleColor
+					clip:false
+				actionsArray.push icon
+
+		for act in actionsArray
+			m.utils.inky
+				layer:act
+				moveToTap:false
+				color:"white"
+				opacity:.4
+				scale:.8
+				startScale:.7
+
 
 	if setup.tabs && setup.tabs.length > 2
 

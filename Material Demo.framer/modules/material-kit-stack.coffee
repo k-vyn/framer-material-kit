@@ -22,7 +22,7 @@ exports.removeFromStack = (layer) ->
         leading:m.dp(m.device.width)
       m.layout.animate
         target:layerToleave
-        time:.5
+        time:.3
       overlay.animate
         properties:(opacity:0)
         time:.5
