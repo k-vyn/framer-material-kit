@@ -117,5 +117,5 @@ exports.create = (array) ->
 		passedInk.layer = button
 
 		m.utils.inky(passedInk)
-
+	button.label = label
 	return button
