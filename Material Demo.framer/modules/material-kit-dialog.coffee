@@ -34,6 +34,7 @@ exports.create = (array) ->
 		shadowColor:"rgba(0,0,0,.2)"
 		shadowY:24
 		shadowBlur:24
+		clip:true
 	modal.constraints =
 		align:"center"
 		width:280
@@ -93,6 +94,8 @@ exports.create = (array) ->
 		modal.constraints["height"] = 20 + m.utils.pt(title.height) + 10 + m.utils.pt(message.height) + 32 + (setup.actions.length * 36)
 		m.layout.set
 			target:modal
+		largestLabel = 0
+		largestButton = 0
 		for act, index in setup.actions
 			button = new m.Button
 				superLayer:modal
@@ -107,6 +110,16 @@ exports.create = (array) ->
 			m.layout.set
 				target:button
 
+			if largestLabel < button.label.width
+				largestLabel = button.label.width
+				largestButton = button.width
+
+		for act in actions
+			act.label.style.textAlign = "right"
+			act.label.width = largestLabel
+			act.width = largestButton
+			m.layout.set
+				target:[act, act.label]
 
 	# Export dialog
 	dialog.overlay = overlay

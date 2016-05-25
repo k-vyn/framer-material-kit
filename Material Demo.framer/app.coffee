@@ -75,7 +75,7 @@ loadTable = (table, superLayer) ->
 			
 		profilePhoto = new Layer superLayer: layer, borderRadius: m.px(50), image:layer.data.profile_pic
 		profilePhoto.constraints =
-			top:[thumbnail, 10]
+			top:[thumbnail, 5]
 			leading:10
 			height:48
 			width:48
@@ -86,7 +86,7 @@ loadTable = (table, superLayer) ->
 		titleLabel = new m.Text
 			text:layer.data.title
 			superLayer:layer
-			constraints:{top:[thumbnail, 15], leading:80, trailing:10}
+			constraints:{top:[thumbnail, 10], leading:80, trailing:10}
 
 			
 		userLabel = new m.Text
@@ -94,7 +94,7 @@ loadTable = (table, superLayer) ->
 			superLayer:layer
 			fontSize:14
 			color:"grey"
-			constraints:{top:[thumbnail, 35], leading:80, trailing:10}
+			constraints:{top:[thumbnail, 30], leading:80, trailing:10}
 			
 
 		Utils.delay .3 * (layer.index - 1), ->
