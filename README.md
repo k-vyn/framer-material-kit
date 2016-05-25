@@ -24,22 +24,27 @@ If you're interested in prototyping with iOS, check out the [iOS Kit for FramerJ
 - [Real device override](#real)
 - [Device details library](#details)<br>
 <u><b>[System Components](#system)</b></u>
-- [App Bar](#app)
-- [Dialog](#dialog)
-- [Banner](#banner)
-- [Button](#button)
-- [Icon](#icon)
-- [Navigation Bar](#nav)
-- [Snack Bar](#snack)
+- [Material Color](#colors)
+- [Material Icon](#icons)
 - [Status Bar](#status)
+- [App Bar](#app)
+- [Banner](#banner)
+- [Video](#video)
+- [Dialog](#dialog)
 - [Text](#text)
-- [Video](#video==)
+- [Buttons](#buttons)
+- [Snack Bar](#snack)
+- [Navigation Bar](#nav)
+
+
+
+
 <u><b>[Supporting Functions](#supporting)</b></u><br>
 <u><b>[How to Contribute](#contribute)</b></u>
 
 <div id='setup' />
 ## Setup
-To setup the kit, add the following list of files to your modules folder in your project. Don't worry, you'll only need to require one. <br><br>
+To setup the kit, add the following list of files to your modules folder in your project. Don't worry, you'll only need to require one. <br>
 <pre>
 material-kit.coffee
 material-kit-dialog.coffee
@@ -272,6 +277,7 @@ Every component in this module was written to feel native to Framer, so the way 
 
 After creation, components will operate as native layers under the variable name you declared. The only difference is the sublayers of the component are accessible via dot notation, so it's easier for you to turn on event listeners etc. 
 
+<div id='colors' />
 ## Material Colors
 ![](https://dl.dropboxusercontent.com/u/143270556/material-kit/colors.png)
 
@@ -290,7 +296,7 @@ text = new m.Text
 	color:"yellowA400" ## sets color to #FFEA00
 </pre>
 
-
+<div id='icons' />
 ## Material Icons
 ![](https://dl.dropboxusercontent.com/u/143270556/material-kit/icons.png)
 
@@ -565,7 +571,8 @@ button: {
 Listening to buttons is no different than normal framer.<br>
 `button.on Events...`
 
-## Snackbar
+<div id='snack' />
+## Snack Bar
 ![](https://dl.dropboxusercontent.com/u/143270556/material-kit/snackbar.png)
 Snackbars are messages with actions that appear at the bottom of screens. You can assign an action to them. 
 
@@ -590,7 +597,8 @@ snack: {
 	snack.action
 	snack.bg 
 }
-
+</pre>
+<div id='nav' />
 ## Navigation Bar
 ![](https://dl.dropboxusercontent.com/u/143270556/material-kit/nav.png)
 This is the system bar that appears on the bottom of the device. There are no properties for the navigation bar. Please read about the stack when you implement the Navigation Bar.
@@ -702,7 +710,7 @@ print time.mins # prints "33"
 print time.secs # prints "1"
 </pre>
 
-####m.utis.timeDelegate(layer, clock24)
+####m.utils.timeDelegate(layer, clock24)
 This sets up a reoccuring task at the top of every minute to update whatever layer passed to the current time. If clock24 is set to true, it'll return 24-hour clock values. If set to false or omitted, it'll return 12-hour clock values. 
 
 ####m.utils.timeFormatter(timeObj, clock24)

@@ -2,18 +2,20 @@ m = require "material-kit"
 data = require("demo_data").json
 
 bg = new BackgroundLayer 
-	backgroundColor: m.color("white")
-	
-nav = new m.NavBar
 
+nav = new m.NavBar
+nav.back.on Events.TouchEnd, ->
+	for c in cards
+		c.ignoreEvents = false
+	bar.ignoreEvents = false
+	
+# Status bar
 status = new m.StatusBar
 	color:"white"
-	
-banner = new m.Banner
-	
+
+# App Bar
 bar = new m.AppBar
 	backgroundColor:"red600"
-	title:"YouTube"
 	tabs:["YouTube Red", "trending", "subscriptions", "account"]
 	tabIcons:["home", "whatshot", "subscriptions", "person"]
 	tabsInk:{color:"red800", scale:3}
@@ -21,10 +23,32 @@ bar = new m.AppBar
 	tabsColor:"white"
 	tabsAlt:{color:"black", opacity:.7}
 	actions:["more_vert", "search"]
-	
+
+# Throw snackbars on other tabs
+showSnackBar = false
+bar.tabs["trending"].on Events.TouchEnd, ->
+	if showSnackBar == false
+		snack = new m.SnackBar text:"Other tabs are not built out"
+		showSnackBar = true
+		Utils.delay 3, -> showSnackBar = false
+		
+bar.tabs["subscriptions"].on Events.TouchEnd, ->
+	if showSnackBar == false
+		snack = new m.SnackBar text:"Other tabs are not built out"
+		showSnackBar = true
+		Utils.delay 3, -> showSnackBar = false
+
+bar.tabs["account"].on Events.TouchEnd, ->
+	if showSnackBar == false
+		snack = new m.SnackBar text:"Other tabs are not built out"
+		showSnackBar = true
+		Utils.delay 3, -> showSnackBar = false
+
 cards = []
-allCards = []
+## Content
 loadTable = (table, superLayer) ->
+
+	# Card 
 	card = () ->
 		if cards[cards.length - 1]
 			if cards[cards.length - 1].table != table
@@ -36,45 +60,52 @@ loadTable = (table, superLayer) ->
 			shadowY: m.px(1)
 			shadowColor: m.color("grey200")
 			opacity: 0
+			
 		layer.table = table
 		cards.push layer
-		allCards.push layer
 		layer.data = data[table][cards.indexOf(layer)]
 		layer.constraints = {height:300}
+		
 		thumbnail = new Layer superLayer: layer, image:layer.data.thumbnail
 		thumbnail.constraints =
 			leading:10
 			trailing:10
 			bottom:60
 			top:10
+			
 		profilePhoto = new Layer superLayer: layer, borderRadius: m.px(50), image:layer.data.profile_pic
 		profilePhoto.constraints =
-			top:[thumbnail, 8]
+			top:[thumbnail, 10]
 			leading:10
 			height:48
 			width:48
-		m.layout.set()
+			
+		m.layout.set
+			target:[layer, thumbnail, profilePhoto]
+			
 		titleLabel = new m.Text
+			text:layer.data.title
 			superLayer:layer
 			constraints:{top:[thumbnail, 15], leading:80, trailing:10}
-			text:layer.data.title
+
+			
 		userLabel = new m.Text
-			superLayer:layer
-			constraints:{top:[thumbnail, 35], leading:80, trailing:10}
 			text:"#{layer.data.author} • #{layer.data.short_views} views • #{layer.data.rel_date}"
+			superLayer:layer
 			fontSize:14
 			color:"grey"
+			constraints:{top:[thumbnail, 35], leading:80, trailing:10}
+			
+
 		Utils.delay .3 * (layer.index - 1), ->
 			layer.animate
 				properties:(opacity:1)
 				time:.5	
-				
-		superLayer.updateContent()
 		
 		layer.on Events.Click, ->
-			for c in allCards
+			for c in cards
 				c.ignoreEvents = true
-			bar.visible = false
+			bar.ignoreEvents = true
 			
 			view = new Layer backgroundColor:"white"
 			view.constraints = {top:0, bottom:nav, leading:0, trailing:0}
@@ -82,7 +113,7 @@ loadTable = (table, superLayer) ->
 			view.animate
 				properties:(y:0)
 				time:.5
-			m.layout.set()
+			m.layout.set(view)
 
 			video = new m.Video 
 				max:true
@@ -97,6 +128,7 @@ loadTable = (table, superLayer) ->
 			
 			details = new Layer backgroundColor:"white", superLayer:view
 			details.constraints = {top:video, leading:0, trailing:0, bottom:0}
+			
 			hideDetails = ->
 				details.visible = false
 			showDetails = ->
@@ -179,7 +211,7 @@ loadTable = (table, superLayer) ->
 		backgroundColor:"red600"
 		clip:true
 	
-	for i in [0...5]
+	for i in [0...4]
 		post = new card
 		if cards.indexOf(post) == 0
 			post.constraints.top = 0
@@ -190,37 +222,12 @@ loadTable = (table, superLayer) ->
 			
 		m.layout.set(post)
 	m.layout.set()
-	
+	home.contentInset = {top: 0, right: 0, bottom: m.px(150), left: 0}
 	home.updateContent()
-
-nav.back.on Events.TouchEnd, ->
-	for c in allCards
-		c.ignoreEvents = false
-	bar.visible = true
-
-# Make Tables
-home = new ScrollComponent 
-	superLayer:bar.views["YouTube Red"]
-home.contentInset = {top: 0, right: 0, bottom: m.px(150), left: 0}
+	
+# Make Table
+home = new ScrollComponent scrollHorizontal: false, superLayer:bar.views["YouTube Red"]
 home.constraints = {top:0, leading:0, trailing:0, bottom:nav}
-home.scrollHorizontal = false
 m.layout.set()
-
-
-bar.tabs["trending"].on Events.TouchEnd, ->
-	snack = new m.SnackBar
-		animated:true
-		text:"Something went right"
-		action:"Send"
-		
-bar.tabs["subscriptions"].on Events.TouchEnd, ->
-	snack = new m.SnackBar
-		animated:true
-		text:"Subscriptions not included"
-
-bar.tabs["account"].on Events.TouchEnd, ->
-	snack = new m.SnackBar
-		animated:true
-		text:"Account not included"
 
 loadTable("home", home)

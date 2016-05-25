@@ -1,33 +1,33 @@
 app.coffee
 app.js
-framer/backups/backup-2016-05-24 08.39.58.coffee
-framer/backups/backup-2016-05-24 08.40.58.coffee
-framer/backups/backup-2016-05-24 08.41.58.coffee
-framer/backups/backup-2016-05-24 08.42.58.coffee
-framer/backups/backup-2016-05-24 08.43.58.coffee
-framer/backups/backup-2016-05-24 08.54.58.coffee
-framer/backups/backup-2016-05-24 08.55.58.coffee
-framer/backups/backup-2016-05-24 08.57.58.coffee
-framer/backups/backup-2016-05-24 09.00.58.coffee
-framer/backups/backup-2016-05-24 09.01.58.coffee
-framer/backups/backup-2016-05-24 09.02.58.coffee
-framer/backups/backup-2016-05-24 09.03.58.coffee
-framer/backups/backup-2016-05-24 09.04.58.coffee
-framer/backups/backup-2016-05-24 09.10.58.coffee
-framer/backups/backup-2016-05-24 09.11.58.coffee
-framer/backups/backup-2016-05-24 10.46.20.coffee
-framer/backups/backup-2016-05-24 10.55.05.coffee
-framer/backups/backup-2016-05-24 13.18.39.coffee
-framer/backups/backup-2016-05-24 15.39.56.coffee
-framer/backups/backup-2016-05-24 15.55.56.coffee
-framer/backups/backup-2016-05-24 16.11.07.coffee
+framer/backups/backup-2016-05-25 07.57.46.coffee
+framer/backups/backup-2016-05-25 07.58.46.coffee
+framer/backups/backup-2016-05-25 08.00.46.coffee
+framer/backups/backup-2016-05-25 08.01.46.coffee
+framer/backups/backup-2016-05-25 08.03.46.coffee
+framer/backups/backup-2016-05-25 08.04.46.coffee
+framer/backups/backup-2016-05-25 08.06.46.coffee
+framer/backups/backup-2016-05-25 08.10.46.coffee
+framer/backups/backup-2016-05-25 08.12.46.coffee
+framer/backups/backup-2016-05-25 08.13.46.coffee
+framer/backups/backup-2016-05-25 08.14.46.coffee
+framer/backups/backup-2016-05-25 08.15.46.coffee
+framer/backups/backup-2016-05-25 08.16.46.coffee
+framer/backups/backup-2016-05-25 08.17.46.coffee
+framer/backups/backup-2016-05-25 08.18.46.coffee
+framer/backups/backup-2016-05-25 08.19.46.coffee
+framer/backups/backup-2016-05-25 08.25.46.coffee
+framer/backups/backup-2016-05-25 08.26.46.coffee
+framer/backups/backup-2016-05-25 08.30.46.coffee
+framer/backups/backup-2016-05-25 08.33.46.coffee
+framer/backups/backup-2016-05-25 08.34.46.coffee
 framer/coffee-script.js
 framer/config.json
-framer/framer.generated (J’s iMac's conflicted copy 2016-05-24).js
 framer/framer.generated.js
 framer/framer.init.js
 framer/framer.js
 framer/framer.js.map
+framer/framer.modules (J’s iMac's conflicted copy 2016-05-24).js
 framer/framer.modules.js
 framer/images/background.png
 framer/images/cursor-active.png
