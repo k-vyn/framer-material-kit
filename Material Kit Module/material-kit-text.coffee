@@ -27,18 +27,6 @@ exports.defaults = {
 	name:"text layer"
 }
 
-#url('modules/Roboto/Roboto-BlackItalic.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-Black.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-BoldItalic.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-Bold.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-MediumItalic.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-Medium.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-Regular.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-Italic.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-Light.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-LightItalic.ttf') format('truetype'),
-# url('modules/Roboto/Roboto-Thin.ttf') format('truetype'),
-
 
 exports.defaults.props = Object.keys(exports.defaults)
 
@@ -46,40 +34,6 @@ style = document.createElement('style')
 style.type = 'text/css'
 
 style.appendChild(document.createTextNode("@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);\n @import url(https://fonts.googleapis.com/icon?family=Material+Icons); \n"))
-
-# style.appendChild(document.createTextNode("@font-face {\n" +
-# "\tfont-family: \"Roboto\";\n" +
-# "\tsrc: local('☺'),
-# url('modules/Roboto/Roboto-ThinItalic.ttf') format('truetype');\n" +
-# "}\n" + "\tfont-weight: 100"
-# "\tfont-family: Roboto !important;\n" +
-# "}\n"))
-
-# style.appendChild(document.createTextNode("@font-face {\n" +
-# "\tfont-family: \"Roboto\";\n" +
-# "\tsrc: local('☺'),
-# url('modules/Roboto/Roboto-Light.ttf') format('truetype');\n" +
-# "}\n" + "\tfont-weight: light"
-# "\tfont-family: Roboto !important;\n" +
-# "}\n"))
-#
-# style.appendChild(document.createTextNode())
-#
-# style.appendChild(document.createTextNode("@font-face {\n" +
-# "\tfont-family: \"Roboto\";\n" +
-# "\tsrc: local('☺'),
-# url('modules/Roboto/Roboto-Regular.ttf') format('truetype');\n" +
-# "}\n" + "\tfont-weight: \"normal\";\n" +
-# "\tfont-family: Roboto !important;\n" +
-# "}\n" + "@font-face {\n" +
-# "\tfont-family: \"Roboto\";\n" +
-# "\tsrc: local('☺'),
-# url('modules/Roboto/Roboto-Thin.ttf') format('truetype');\n" +
-# "}\n" + "\tfont-weight: \"thin\";\n" +
-# "\tfont-family: Roboto !important;\n" +
-# "}\n"
-#
-# ))
 
 document.getElementsByTagName('head')[0].appendChild(style)
 
