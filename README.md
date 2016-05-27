@@ -271,7 +271,7 @@ You’ll now be able to refer to a set of new variables that’ll allow you to g
 
 <div id='system' />
 ## System components
-These are easy to implement & fully customizable native iOS components. The idea is that implementing Material components should be easy & quick, so that you can spend the time working on what makes your prototype unique. 
+These are easy to implement & fully customizable native Material components. The idea is that implementing Material components should be easy & quick, so that you can spend the time working on what makes your prototype unique. 
 
 Every component in this module was written to feel native to Framer, so the way you create components should feel as familar as creating a new layer. The difference is that in addition to Framer properties there's added customization parameters, which will be accepted, and any component that can accept constraints from Dynamic Layout is able to. 
 
