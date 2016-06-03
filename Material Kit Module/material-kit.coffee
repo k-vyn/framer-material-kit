@@ -41,6 +41,7 @@ snackbar = require 'material-kit-snack-bar'
 status = require 'material-kit-status-bar'
 text = require 'material-kit-text'
 video = require 'material-kit-video'
+bottomnav = require 'material-kit-bottom-nav'
 
 ## Setup Components
 exports.AppBar = appbar.create
@@ -53,3 +54,4 @@ exports.SnackBar = snackbar.create
 exports.StatusBar = status.create
 exports.Text = text.create
 exports.Video = video.create
+exports.BottomNav = bottomnav.create
