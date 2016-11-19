@@ -7,6 +7,7 @@ exports.defaults = {
   superLayer: undefined
   constraints: undefined
   clip:true
+  opacity: 1
 }
 
 exports.defaults.props = Object.keys(exports.defaults)
@@ -21,6 +22,7 @@ exports.create = (array) ->
       clip:setup.clip
       name:setup.name
       superLayer:setup.superLayer
+      opacity:setup.opacity
 
     paddingRight = 0
     paddingTop = 0
