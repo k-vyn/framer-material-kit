@@ -1,4 +1,4 @@
-# Material Kit for FramerJS
+# Material Design Kit for FramerJS
 ![Material Kit Logo](/_img/framer-material-design-kit.jpg)
 
 Material Kit was created to make prototyping with [Material Design](https://material.io/) fast and easy without compromising the quality or customization.
@@ -10,23 +10,17 @@ There are three core pieces:
 
 If you're interested in prototyping with iOS, check out the [iOS Kit for FramerJS](https://github.com/k-vyn/framer-ios-kit).
 
-## Table of Contents
-- [Setup](#setup)<br>
-  <u><b>[Foundational Elements](#foundational)</b></u>
+### Contents
+>- [Setup](#setup)
 - [Dynamic Layout](#dynamic)
-  -	[The Point](#point)
-    -[Positioning](#positioning)
-    - [Setting opposite constraints](#opposite)
-      -[Relationships](#relationships)
-    - [Positioning](#pos-rel)
-    - [Centering](#center-rel)
-    - [Aligning](#align-rel)
-      -[Animating Constraints](#animating)
-      -[Size Constraints](#size-constraints)
-      -[Understanding ios.layout.set()](#layout)
+  - [Positioning](#positioning)
+  - [Setting opposite constraints](#opposite)
+  - [Positioning](#pos-rel)
+  - [Centering](#center-rel)
+  - [Aligning](#align-rel)
 - [Real device override](#real)
-- [Device details library](#details)<br>
-  <u><b>[System Components](#system)</b></u>
+- [Device details library](#details)
+- [System Components](#system)
 - [Material Color](#colors)
 - [Material Icon](#icons)
 - [Status Bar](#status)
@@ -39,10 +33,7 @@ If you're interested in prototyping with iOS, check out the [iOS Kit for FramerJ
 - [Snack Bar](#snack)
 - [Navigation Bar](#nav)
 
-<u><b>[Supporting Functions](#supporting)</b></u><br>
-<u><b>[How to Contribute](#contribute)</b></u>
-
-## Setup
+### Setup
 To setup the kit, add the following list of files to your modules folder in your project. Don't worry, you'll only need to require one.
 
 ```coffeescript
@@ -69,7 +60,6 @@ In Framer Studio, write `m = require 'material-kit'`.
 
 You can write any variable name you'd like, but for the purposes of this guide we'll be using `m`.
 
-## Foundational Elements
 ### Dynamic Layout
 
 ![](https://dl.dropboxusercontent.com/u/143270556/ioskit/dynamic.png)
@@ -107,7 +97,7 @@ This will position the layer at `x:30, y:30` on Samsung S5, and `x:40, y:40` on 
 >`layer.constraints = {top:10, leading:10}`
 
 
-##### Setting Opposing Constraints
+#### Setting Opposing Constraints
 If you set a leading & trailing or a top & bottom, Dynamic Layout will do its best to honor the constraints, which will mean the height/width will need to be adjusted. For example, if you set the constraints of a layer to  `leading: 0` and `trailing:0`, the layer's width will be adjusted to the device's width.
 
 >**WARNING** - If you set too many opposing constraints, I'm not sure what'll happen. Best of luck. `¯\_(ツ)_/¯` Try to just set no more than one of each constraint.
@@ -167,7 +157,7 @@ m.layout.set()
 #### Animating Constraints
 You can animate between constraints by running ` m.layout.animate()`.
 
-##### Properties
+#### Properties
 - **target (optional)** *Layer or Array of layers* <br> When set, this will only animate the target layers with updated constraints. When this is not set, it'll animate all layers with their updated constraints.
 - **curve, curveOptions, delay, repeat, colorModel** *String* <br>  Each of these properties will work the same as native animations
 - **time** *Num* <br> This will be the time of each layer's animation, not the entire animation of all the layers.
@@ -220,10 +210,10 @@ m.layout.set()
 #### m.layout.set()
 This function only need to be called once for all constraints. It'll cycle through all the layers in order of creation, and it'll fulfill all constraints.
 
-##### When to call it
+#### When to call it
 You'll need to call it before any `x`/`y` positions are referenced. If you have a function that's based off another layer, you'll need to call `m.layout.set` before that positioning is stored otherwise it'll be wrong or `0`. Once you `call m.layout.set()`, it'll set the position to the accurate position.
 
-##### Mixing up the queue
+#### Mixing up the queue
 `m.layout.set` will accept layers in the parentheses. This will layout **only** that layer and ignore all other constraints. This is to be used if a layer created after others needs to be laid out before others.
 
 ```coffeescript
